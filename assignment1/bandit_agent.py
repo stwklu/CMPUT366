@@ -18,7 +18,7 @@ q_estimates = None
 
 ### PARAMETER SETTINGS ###		
 alpha = 0.1		
-epsilon = 0
+epsilon = 0.2
 q1 = 5
 
 def agent_init():
@@ -52,7 +52,6 @@ def agent_step(reward, this_observation): # returns NumPy array, reward: floatin
     else: # Exploit
         last_action[0] = np.argmax(q_estimates)
     # might do some learning here
-    print(q_estimates)
     # last_action = local_action
     return last_action
 

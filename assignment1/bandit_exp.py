@@ -44,6 +44,8 @@ if __name__ == "__main__":
             announcement on eClass for how to implement this
             '''
             # update your optimal action statistic here
+            if (action[0]) == RL_env_message("get optimal action"):
+                optimal_action[i] += 1
 
         RL_cleanup()
         print ".",
