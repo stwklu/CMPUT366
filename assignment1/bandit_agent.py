@@ -18,11 +18,11 @@ q_estimates = None
 
 ### PARAMETER SETTINGS ###		
 alpha = 0.1		
-epsilon = 0		
+epsilon = 0
 q1 = 5
 
 def agent_init():
-    global last_action, epsilon 
+    global last_action, epsilon, q_estimates 
 
     q_estimates = np.zeros(num_actions) + epsilon
 
@@ -42,17 +42,18 @@ def agent_start(this_observation): # returns NumPy array, this_observation: NumP
 def agent_step(reward, this_observation): # returns NumPy array, reward: floating point, this_observation: NumPy array
     global last_action, q_estimates
 
-    local_action = np.zeros(1)
-    local_action[0] = rand_in_range(num_actions)
+    if last_action == None:
+        last_action[0] = rand_in_range(num_actions)
+    else:
+        q_estimates[int(last_action[0])] = q_estimates[int(last_action[0])] + alpha * (reward - q_estimates[int(last_action[0])])
 
     if np.random.uniform() < epsilon: # Explore
         last_action[0] = np.random.randint(num_actions)
     else: # Exploit
         last_action[0] = np.argmax(q_estimates)
     # might do some learning here
-
+    print(q_estimates)
     # last_action = local_action
-
     return last_action
 
 def agent_end(reward): # reward: floating point
