@@ -15,11 +15,6 @@ RLGlue("bandit_env", "bandit_agent")
 import numpy as np
 import sys
 
-### PARAMETER SETTINGS ###
-alpha = 0.1
-epsilon = 0
-q1 = 5
-
 def save_results(data, data_size, filename): # data: floating point, data_size: integer, filename: string
     with open(filename, "w") as data_file:
         for i in range(data_size):
