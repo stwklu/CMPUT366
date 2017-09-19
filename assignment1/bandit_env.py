@@ -10,14 +10,15 @@
 from utils import rand_norm, rand_in_range, rand_un
 import numpy as np
 
+arm_count = 10
 this_reward_observation = (None, None, None) # this_reward_observation: (floating point, NumPy array, Boolean)
+arms_centres = np.zeros(arm_count)
 
 def env_init():
-    global this_reward_observation
-    local_observation = np.zeros(0) # An empty NumPy array
+    global arms_centres
 
-    this_reward_observation = (0.0, local_observation, False)
-
+    for i in range(arm_count):
+        arms_centres[i] = rand_norm(0,1)
 
 def env_start(): # returns NumPy array
     return this_reward_observation[1]
