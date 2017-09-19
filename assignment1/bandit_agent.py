@@ -15,7 +15,7 @@ last_action = None # last_action: NumPy array
 
 num_actions = 1
 
--### PARAMETER SETTINGS ###		
+### PARAMETER SETTINGS ###		
 alpha = 0.1		
 epsilon = 0		
 q1 = 5
