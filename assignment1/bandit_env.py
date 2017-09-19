@@ -24,8 +24,8 @@ def env_start(): # returns NumPy array
     return this_reward_observation[1]
 
 def env_step(this_action): # returns (floating point, NumPy array, Boolean), this_action: NumPy array
-    global this_reward_observation
-    the_reward = rand_norm(0.0, 1.0) # rewards drawn from (0, 1) Gaussian
+    global this_reward_observation, arms_centres
+    the_reward = rand_norm(arms_centres[int(this_action)], 1.0) # rewards drawn from (seed, 1) Gaussian
 
     this_reward_observation = (the_reward, this_reward_observation[1], False)
 
