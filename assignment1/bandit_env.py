@@ -38,6 +38,8 @@ def env_cleanup():
 def env_message(inMessage): # returns string, inMessage: string
     if inMessage == "what is your name?":
         return "my name is skeleton_environment!"
-  
+    # Andrew Jacobson, eClass forum
+    elif inMessage == "get optimal action":
+        return int(np.argmax(arms_centres))
     # else
     return "I don't know how to respond to your message"
