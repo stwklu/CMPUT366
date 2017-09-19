@@ -14,6 +14,7 @@ import numpy as np
 last_action = None # last_action: NumPy array
 
 num_actions = 10
+q_estimates = None
 
 ### PARAMETER SETTINGS ###		
 alpha = 0.1		
@@ -39,14 +40,18 @@ def agent_start(this_observation): # returns NumPy array, this_observation: NumP
 
 
 def agent_step(reward, this_observation): # returns NumPy array, reward: floating point, this_observation: NumPy array
-    global last_action
+    global last_action, q_estimates
 
     local_action = np.zeros(1)
     local_action[0] = rand_in_range(num_actions)
 
+    if np.random.uniform() < epsilon: # Explore
+        last_action[0] = np.random.randint(num_actions)
+    else: # Exploit
+        last_action[0] = np.argmax(q_estimates)
     # might do some learning here
 
-    last_action = local_action
+    # last_action = local_action
 
     return last_action
 
