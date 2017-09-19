@@ -21,7 +21,7 @@ epsilon = 0
 q1 = 5
 
 def agent_init():
-    global last_action
+    global last_action, epsilon 
 
     q_estimates = np.zeros(num_actions) + epsilon
 
