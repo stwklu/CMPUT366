@@ -13,7 +13,7 @@ import numpy as np
 
 last_action = None # last_action: NumPy array
 
-num_actions = 1
+num_actions = 10
 
 ### PARAMETER SETTINGS ###		
 alpha = 0.1		
@@ -22,6 +22,8 @@ q1 = 5
 
 def agent_init():
     global last_action
+
+    q_estimates = np.zeros(num_actions) + epsilon
 
     last_action = np.zeros(1) # generates a NumPy array with size 1 equal to zero
 
