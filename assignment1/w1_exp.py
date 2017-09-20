@@ -53,5 +53,5 @@ if __name__ == "__main__":
         print ".",
         sys.stdout.flush()
 
-    save_results(optimal_action / num_runs, max_steps, "RL_EXP_OUT0.dat")
+    save_results(optimal_action / num_runs, max_steps, "RL_EXP_OUT.dat")
     print "\nDone"
