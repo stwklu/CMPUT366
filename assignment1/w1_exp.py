@@ -10,7 +10,7 @@
 """
 
 from rl_glue import *  # Required for RL-Glue
-RLGlue("bandit_env", "bandit_agent")
+RLGlue("w1_env", "w1_agent")
 
 import numpy as np
 import sys
