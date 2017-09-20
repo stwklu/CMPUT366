@@ -19,12 +19,12 @@ q_estimates = None
 ### PARAMETER SETTINGS ###		
 alpha = 0.1		
 epsilon = 0.1
-q1 = 5
+q1 = 0
 
 def agent_init():
     global last_action, epsilon, q_estimates 
 
-    q_estimates = np.zeros(num_actions) + epsilon
+    q_estimates = np.zeros(num_actions) + q1
 
     last_action = np.zeros(1) # generates a NumPy array with size 1 equal to zero
 
