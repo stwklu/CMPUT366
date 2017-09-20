@@ -17,9 +17,14 @@ num_actions = 10
 q_estimates = None
 
 ### PARAMETER SETTINGS ###		
+# Question 1
 alpha = 0.1		
-epsilon = 0.1
-q1 = 0
+epsilon = 0
+q1 = 5
+# Question 2
+# alpha = 0.1
+# epsilon = 0.1
+# q1 = 0
 
 def agent_init():
     global last_action, epsilon, q_estimates 
