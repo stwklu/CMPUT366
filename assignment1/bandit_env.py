@@ -10,6 +10,8 @@
 from utils import rand_norm, rand_in_range, rand_un
 import numpy as np
 
+np.random.seed(123)
+
 arm_count = 10
 this_reward_observation = (None, None, None) # this_reward_observation: (floating point, NumPy array, Boolean)
 arms_centres = np.zeros(arm_count)

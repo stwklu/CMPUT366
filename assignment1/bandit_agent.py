@@ -11,6 +11,8 @@
 from utils import rand_in_range
 import numpy as np
 
+np.random.seed(123)
+
 last_action = None # last_action: NumPy array
 
 num_actions = 10

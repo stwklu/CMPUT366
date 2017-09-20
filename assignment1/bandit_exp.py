@@ -15,12 +15,14 @@ RLGlue("bandit_env", "bandit_agent")
 import numpy as np
 import sys
 
+np.random.seed(123)
+
 def save_results(data, data_size, filename): # data: floating point, data_size: integer, filename: string
     with open(filename, "w") as data_file:
         for i in range(data_size):
             data_file.write("{0}\n".format(data[i]))
 
-if __name__ == "__main__":
+if __name__ == "__main__":    
     num_runs = 2000
     max_steps = 1000
 
