@@ -22,4 +22,8 @@ Every single file (`w1_agent.py, w1_env.py, w1_exp.py`) uses only numpy for rand
 4. Rename the output PDF if desired or else overwritten next run. 
 5. In order to print two experiments on the same graph, see comments in `plot.r`
 
+# Data Files
+As agent parameters must be changed in code as well as the output file name, the experiments must be ran sequentially which is fine due to the seeding and # of runs. However, this means that I have provided the data used to generate the corresponding plots (`w1_epsilongreedy.dat` and `w1_optimistic.dat`) as part of my submission.
+
+In other words, the program does not run both experiments simultaneously, create two data files, and then two plots. One must run one experiment, and create the plot and then rename the data file and plot in order for them to not be overwritten by the second experiment.
 
