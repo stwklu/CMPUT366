@@ -18,7 +18,7 @@ q_estimates = None
 
 ### PARAMETER SETTINGS ###		
 alpha = 0.1		
-epsilon = 0.2
+epsilon = 0.1
 q1 = 5
 
 def agent_init():
