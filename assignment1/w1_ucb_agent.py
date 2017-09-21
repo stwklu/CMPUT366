@@ -9,6 +9,8 @@
 """
 
 from utils import rand_in_range
+from math import sqrt, log
+from copy import copy
 import numpy as np
 
 np.random.seed(123)
@@ -18,6 +20,8 @@ last_action = None # last_action: NumPy array
 num_actions = 10
 q_estimates = None
 q_pulls = None
+steps = None
+c = .7
 
 ### PARAMETER SETTINGS ###		
 # Question 1
@@ -30,10 +34,11 @@ epsilon = 0.1
 q1 = 0
 
 def agent_init():
-    global last_action, epsilon, q_estimates, q_pulls 
+    global last_action, epsilon, q_estimates, q_pulls, steps
 
     q_estimates = np.zeros(num_actions) + q1
-    q_pulls = np.zeros(num_actions)
+    q_pulls = np.ones(num_actions)
+    steps = 1
 
     last_action = np.zeros(1) # generates a NumPy array with size 1 equal to zero
 
@@ -49,20 +54,21 @@ def agent_start(this_observation): # returns NumPy array, this_observation: NumP
 
 
 def agent_step(reward, this_observation): # returns NumPy array, reward: floating point, this_observation: NumPy array
-    global last_action, q_estimates, q_pulls
+    global last_action, q_estimates, q_pulls, num_actions, steps, c
 
     local_action = np.zeros(1)
 
     q_estimates[int(last_action[0])] = q_estimates[int(last_action[0])] + alpha * (reward - q_estimates[int(last_action[0])])
 
-    if np.random.uniform() < epsilon: # Explore
-        local_action[0] = np.random.randint(num_actions)
-    else: # Exploit
-        local_action[0] = np.argmax(q_estimates)
+    ucb_estimates = copy(q_estimates)
+
+    for i in range(num_actions):
+        ucb_estimates[i] += c * sqrt(log(steps) / q_pulls[i])
+    local_action[0] = np.argmax(ucb_estimates)
 
     last_action = local_action
-    print(local_action)
     q_pulls[int(local_action[0])] += 1
+    steps += 1
 
     return last_action
 
