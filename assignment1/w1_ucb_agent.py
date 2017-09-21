@@ -17,6 +17,7 @@ last_action = None # last_action: NumPy array
 
 num_actions = 10
 q_estimates = None
+q_pulls = None
 
 ### PARAMETER SETTINGS ###		
 # Question 1
@@ -29,9 +30,10 @@ epsilon = 0.1
 q1 = 0
 
 def agent_init():
-    global last_action, epsilon, q_estimates 
+    global last_action, epsilon, q_estimates, q_pulls 
 
     q_estimates = np.zeros(num_actions) + q1
+    q_pulls = np.zeros(num_actions)
 
     last_action = np.zeros(1) # generates a NumPy array with size 1 equal to zero
 
@@ -47,7 +49,7 @@ def agent_start(this_observation): # returns NumPy array, this_observation: NumP
 
 
 def agent_step(reward, this_observation): # returns NumPy array, reward: floating point, this_observation: NumPy array
-    global last_action, q_estimates
+    global last_action, q_estimates, q_pulls
 
     local_action = np.zeros(1)
 
@@ -59,6 +61,8 @@ def agent_step(reward, this_observation): # returns NumPy array, reward: floatin
         local_action[0] = np.argmax(q_estimates)
 
     last_action = local_action
+    print(local_action)
+    q_pulls[int(local_action[0])] += 1
 
     return last_action
 
