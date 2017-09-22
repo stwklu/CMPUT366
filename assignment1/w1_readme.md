@@ -27,3 +27,8 @@ As agent parameters must be changed in code as well as the output file name, the
 
 In other words, the program does not run both experiments simultaneously, create two data files, and then two plots. One must run one experiment, and create the plot and then rename the data file and plot in order for them to not be overwritten by the second experiment.
 
+# UCB
+In order to run the UCB agent, change `w1_exp.py` near line 13 where the call to RLGlue is made to `w1_ucb_agent`.
+
+I was able to achieve a final optimal action selection of 82.3% with UCB compared to 76.5% on epsilon-greedy. Playing with alpha, c, and q1 was necessary to achieve this. Increasing q1 from 0 reduced accuracy. Alpha below 0.1 was inconsistent, little chance with 0.3, and then lower performance again at above that. c depended on the chouice of alpha. With higher alphas, I saw better performance with a lower c, but overall, best performance was with alpha at 0.1 and then c at 0.7. This is near 1/sqrt(2) which may be related.
+
