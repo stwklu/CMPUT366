@@ -7,50 +7,60 @@ import numpy as np
 ph = 0.4
 ### PARAMETERS ###
 
+
 def value_iteration(values, policy):
-  delta = 100.0
-  cutoff = 0.1
+  cutoff = 0.0000000001
+  delta = 999
+  sweep = 0
 
-  # while delta > cutoff :
-  for i in range (1,100):
-    v = values[i]
-    values[i] = max_action(values, policy, i)
-    # print(v)
-    # print(values)
-    delta = max(delta, v - values[i])
-    # print(delta)
+  while delta > cutoff :
+    sweep += 1
+    delta = 0.0
+    for state in range (1,100):
+      v = values[state]
+      values[state] = max_value(values, policy, state)
+      delta = max(delta, abs(v - values[state]))
 
+  print("Sweep Total = " + str(sweep))
 
-def max_action(values, policy, i):
-  v_kplus1 = 0.0
-  max_value = 0.0
+def max_value(values, policy, state):
+  v_kplus1 = 0.0 
+  max_value = 0.0 # Best value for this round of actions on state
+  best_action = 0
 
   # Try every action possible from current state i
-  for action in range(0, i):
+  for action in range(1, min(state, 100 - state) + 1): # +1 because range ends one short
     # Does the action achieve our goal from our current state?
-    if (i>98):
-      print("act+i")
-      print(action+i)
-    if (action + i) >= 100:
-      print("heeeeerrr")
+    if (state + action) >= 100:
       # Reward of 1.0 for reaching goal off of a heads
-      v_kplus1 = (ph * (1.0 + values[i])) + ((1.0 - ph) * (0.0 + values[i])) 
+      v_kplus1 = (ph * (1.0 + values[state + action])) + ((1.0 - ph) * (0.0 + values[state - action])) 
     else:
-      v_kplus1 = (ph * (0.0 + values[i])) + ((1.0 - ph) * (0.0 + values[i]))
+      v_kplus1 = (ph * (0.0 + values[state + action])) + ((1.0 - ph) * (0.0 + values[state - action]))
+
+    # Python has issues comparing very similar floats
+    # If similar, do not update
+    if (v_kplus1 - max_value) < 10**-12:
+      continue
 
     if v_kplus1 > max_value:
       max_value = v_kplus1
-  
+      best_action = action
+
+
+  policy[state] = best_action
+
   return max_value
 
+
 def main():
-  values = np.zeros(101)
-  values[100] = 1.0
-  policy = np.zeros(101)
+  values = [0.0] * 101
+  policy = [0] * 101
 
   value_iteration(values, policy)
 
-  print(values)
+  np.save("Value", values)
+  np.save("Policy", policy)
+
 
 if __name__ == '__main__':
   main()
