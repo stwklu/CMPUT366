@@ -9,7 +9,7 @@ ph = 0.4
 
 
 def value_iteration(values, policy):
-  cutoff = 0.0000000001
+  cutoff = 10**-18
   delta = 999
   sweep = 0
 
