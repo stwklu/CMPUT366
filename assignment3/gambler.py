@@ -4,7 +4,7 @@ import numpy as np
 
 ### PARAMETERS ###
 # Probability of heads 
-ph = 0.55
+ph = 0.40
 ### PARAMETERS ###
 
 
@@ -29,7 +29,7 @@ def max_value(values, policy, state):
   best_action = 0
 
   # Try every action possible from current state i
-  for action in range(0, min(state, 100 - state) + 1): # +1 because range ends one short
+  for action in range(1, min(state, 100 - state) + 1): # +1 because range ends one short
 
     v_kplus1 = (ph * (values[state + action])) + ((1.0 - ph) * (values[state - action]))
 
@@ -41,7 +41,6 @@ def max_value(values, policy, state):
     if v_kplus1 > max_value:
       max_value = v_kplus1
       best_action = action
-
 
   policy[state] = best_action
 
