@@ -30,12 +30,8 @@ def max_value(values, policy, state):
 
   # Try every action possible from current state i
   for action in range(1, min(state, 100 - state) + 1): # +1 because range ends one short
-    # Does the action achieve our goal from our current state?
-    if (state + action) >= 100:
-      # Reward of 1.0 for reaching goal off of a heads
-      v_kplus1 = (ph * (1.0 + values[state + action])) + ((1.0 - ph) * (0.0 + values[state - action])) 
-    else:
-      v_kplus1 = (ph * (0.0 + values[state + action])) + ((1.0 - ph) * (0.0 + values[state - action]))
+
+    v_kplus1 = (ph * (0.0 + values[state + action])) + ((1.0 - ph) * (0.0 + values[state - action]))
 
     # Python has issues comparing very similar floats
     # If similar, do not update
@@ -54,6 +50,7 @@ def max_value(values, policy, state):
 
 def main():
   values = [0.0] * 101
+  values[100] = 1.0
   policy = [0] * 101
 
   value_iteration(values, policy)
