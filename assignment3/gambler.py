@@ -4,16 +4,16 @@ import numpy as np
 
 ### PARAMETERS ###
 # Probability of heads 
-ph = 0.4
+ph = 0.55
 ### PARAMETERS ###
 
 
 def value_iteration(values, policy):
-  cutoff = 10**-18
+  theta = 10**-18
   delta = 999
   sweep = 0
 
-  while delta > cutoff :
+  while delta > theta :
     sweep += 1
     delta = 0.0
     for state in range (1,100):
@@ -29,9 +29,9 @@ def max_value(values, policy, state):
   best_action = 0
 
   # Try every action possible from current state i
-  for action in range(1, min(state, 100 - state) + 1): # +1 because range ends one short
+  for action in range(0, min(state, 100 - state) + 1): # +1 because range ends one short
 
-    v_kplus1 = (ph * (0.0 + values[state + action])) + ((1.0 - ph) * (0.0 + values[state - action]))
+    v_kplus1 = (ph * (values[state + action])) + ((1.0 - ph) * (values[state - action]))
 
     # Python has issues comparing very similar floats
     # If similar, do not update
