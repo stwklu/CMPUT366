@@ -21,7 +21,12 @@ def agent_init():
     Returns: nothing
     """
 
+    global pi
+
     #initialize the policy array in a smart way
+
+    for state in pi:
+        pi[state] = min(s, 100 - state)
 
 def agent_start(state):
     """
