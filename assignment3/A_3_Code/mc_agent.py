@@ -26,7 +26,7 @@ def agent_init():
     #initialize the policy array in a smart way
 
     for state in pi:
-        pi[state] = min(s, 100 - state)
+        pi[state] = min(state, 100 - state)
 
 def agent_start(state):
     """
@@ -35,6 +35,8 @@ def agent_start(state):
     Returns: action: integer
     """
     # pick the first action, don't forget about exploring starts 
+    action = rand_in_range(min(state[0], 100 - state[0]))
+    
     return action
 
 
