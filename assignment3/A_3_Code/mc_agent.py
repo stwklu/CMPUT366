@@ -11,9 +11,9 @@ from utils import rand_in_range, rand_un
 import numpy as np
 import pickle
 
-Q = np.zeros((99, 99))
-pi = np.zeros((99, 99))
-returns = np.zeros((99, 99))
+Q = np.full((101, 101), 0.0)
+pi = np.zeros((101, 101))
+returns = np.zeros((101, 101))
 
 def agent_init():
     """
@@ -25,9 +25,10 @@ def agent_init():
 
     #initialize the policy array in a smart way
 
-    for state in range(1,99):
-        for action in range(1,99):
-            pi[state][action] = min(state, 100 - state)
+    for state in range(0,100):
+        for action in range(1,100):
+            pi[state][action] = min(state+1, 100 - state)
+
 
 def agent_start(state):
     """
@@ -46,8 +47,11 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     Arguments: reward: floting point, state: integer
     Returns: action: integer
     """
+
+    global Q
+
     # select an action, based on Q
-    action = np.argmax(Q[state])
+    action = np.argmax(Q[state][0][1:100])+1
 
     return action
 
@@ -57,7 +61,6 @@ def agent_end(reward):
     Returns: Nothing
     """
     # do learning and update pi
-
     return
 
 def agent_cleanup():
