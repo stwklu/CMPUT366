@@ -25,8 +25,11 @@ def agent_init():
 
     #initialize the policy array in a smart way
 
-    for state in pi:
-        pi[state] = min(state, 100 - state)
+    for state in range(1,99):
+        for action in range(1,99):
+            pi[state][action] = min(state, 100 - state)
+
+    print(pi)
 
 def agent_start(state):
     """
