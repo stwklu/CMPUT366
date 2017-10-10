@@ -51,7 +51,11 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     global Q
 
     # select an action, based on Q
-    action = np.argmax(Q[state][0][1:100])+1
+    action = np.argmax(Q[state][0])
+    if (action == 0):
+        action = 1
+
+    print(action)
 
     return action
 
