@@ -12,8 +12,10 @@ import numpy as np
 import pickle
 
 Q = np.full((101, 101), 0.0)
-pi = np.zeros((101, 101))
-returns = np.zeros((101, 101))
+pi = np.zeros(101)
+total_returns = np.zeros((101, 101))
+total_visits = np.full((101, 101), 1.0)
+visited = np.zeros((101, 101))
 
 def agent_init():
     """
@@ -25,9 +27,8 @@ def agent_init():
 
     #initialize the policy array in a smart way
 
-    for state in range(0,100):
-        for action in range(1,100):
-            pi[state][action] = min(state+1, 100 - state)
+    for state in range(1,100):
+        pi[state] = min(state, 100 - state)
 
 
 def agent_start(state):
@@ -37,7 +38,7 @@ def agent_start(state):
     Returns: action: integer
     """
     # pick the first action, don't forget about exploring starts 
-    action = rand_in_range(min(state[0], 100 - state[0]))
+    action = rand_in_range(min(state[0], 100 - state[0])) + 1
     
     return action
 
@@ -48,14 +49,15 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     Returns: action: integer
     """
 
-    global Q
+    global Q, visited
 
     # select an action, based on Q
     action = np.argmax(Q[state][0])
+
     if (action == 0):
         action = 1
 
-    print(action)
+    visited[state[0]][action] += 1
 
     return action
 
@@ -64,7 +66,28 @@ def agent_end(reward):
     Arguments: reward: floating point
     Returns: Nothing
     """
+
+    global total_returns, total_visits, visited, Q, pi
+
     # do learning and update pi
+
+    total_returns += (visited * reward) # Matrix multiplied by a float
+    total_visits += visited # Matrix addition
+    
+    visited = np.zeros((101, 101))
+
+    np.seterr(divide='ignore')
+    Q = total_returns / total_visits
+
+    for state in range(1, 100):
+        pi[state] = np.argmax(Q[state])
+    
+    # print(pi)
+    # print(Q)
+    # print(total_returns)
+    # print(total_visits)
+    # print("#############################################################################")
+
     return
 
 def agent_cleanup():
