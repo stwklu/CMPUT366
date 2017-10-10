@@ -29,8 +29,6 @@ def agent_init():
         for action in range(1,99):
             pi[state][action] = min(state, 100 - state)
 
-    print(pi)
-
 def agent_start(state):
     """
     Hint: Initialize the variavbles that you want to reset before starting a new episode
@@ -49,7 +47,8 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     Returns: action: integer
     """
     # select an action, based on Q
-    
+    action = np.argmax(Q[state])
+
     return action
 
 def agent_end(reward):
