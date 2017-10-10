@@ -11,6 +11,10 @@ from utils import rand_in_range, rand_un
 import numpy as np
 import pickle
 
+Q = np.zeros((99, 99))
+pi = np.zeros((99, 99))
+returns = np.zeros((99, 99))
+
 def agent_init():
     """
     Hint: Initialize the variables that need to be reset before each run begins
