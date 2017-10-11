@@ -14,7 +14,8 @@ import pickle
 Q = np.full((101, 101), 0.0)
 pi = np.zeros(101)
 returns = {}
-visited = []
+path = []
+
 
 def agent_init():
     """
@@ -22,13 +23,13 @@ def agent_init():
     Returns: nothing
     """
 
-    global Q, pi, returns, visited
+    global Q, pi, returns, path
 
     #initialize the policy array in a smart way
     Q = np.full((101, 101), 0.0)
     pi = np.zeros(101)
     returns = {}
-    visited = []
+    path = []
     
     for state in range(1,100):
         pi[state] = min(state, 100 - state)
@@ -40,10 +41,14 @@ def agent_start(state):
     Arguments: state: numpy array
     Returns: action: integer
     """
-    # pick the first action, don't forget about exploring starts 
-    action = rand_in_range(min(state[0], 100 - state[0])) + 1
-    visited.append((state[0], action))
+    global Q, pi, returns, path
 
+    # pick the first action, don't forget about exploring starts 
+    action = np.random.random_integers(1, min(state[0], 100 - state[0]))
+    path = [] # Clear path every episode or else would reward previous episode paths
+
+    if action == 0:
+        print("ACTION ZERO IN START")
     return action
 
 
@@ -53,16 +58,16 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     Returns: action: integer
     """
 
-    global visited, returns, pi
+    global Q, pi, returns, path
 
     # select an action, based on Q
-    if visited[-1] in returns:
-        returns[visited[-1]].append(reward)
-    else:
-        returns[visited[-1]] = [reward]
+    action = int(pi[state])
 
-    action = pi[state[0]]
-    
+    if action == 0:
+        print("Zero in step")
+
+    path.append((state[0], action))
+
     return action
 
 def agent_end(reward):
@@ -70,7 +75,24 @@ def agent_end(reward):
     Arguments: reward: floating point
     Returns: Nothing
     """
+
+    global Q, pi, returns, path
     # do learning and update pi
+
+    for state, action in path:
+        if (state, action) in returns:
+            returns[(state, action)].append(reward)
+        else:
+            returns[(state, action)] = [reward]
+
+    for state, action in returns:
+        Q[state][action] = sum(returns[(state, action)]) / float(len(returns[(state, action)]))
+    
+    for state in range(1, 100):
+        if np.argmax(Q[state]) == 0:
+            continue
+        else:
+            pi[state] = np.argmax(Q[state])
 
     return
 
