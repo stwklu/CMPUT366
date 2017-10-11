@@ -4,7 +4,7 @@ import numpy as np
 
 ### PARAMETERS ###
 # Probability of heads 
-ph = 0.40
+ph = 0.25
 ### PARAMETERS ###
 
 
