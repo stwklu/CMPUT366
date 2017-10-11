@@ -39,6 +39,8 @@ def agent_start(state):
     Returns: action: integer
     """
     # pick the first action, don't forget about exploring starts 
+    action = rand_in_range(min(state[0], 100 - state[0])) + 1
+
     return action
 
 
