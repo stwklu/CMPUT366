@@ -14,6 +14,7 @@ import pickle
 Q = np.full((101, 101), 0.0)
 pi = np.zeros(101)
 returns = {}
+visited = []
 
 def agent_init():
     """
@@ -21,12 +22,13 @@ def agent_init():
     Returns: nothing
     """
 
-    global Q, pi, returns
+    global Q, pi, returns, visited
 
     #initialize the policy array in a smart way
     Q = np.full((101, 101), 0.0)
     pi = np.zeros(101)
     returns = {}
+    visited = []
     
     for state in range(1,100):
         pi[state] = min(state, 100 - state)
@@ -40,6 +42,7 @@ def agent_start(state):
     """
     # pick the first action, don't forget about exploring starts 
     action = rand_in_range(min(state[0], 100 - state[0])) + 1
+    visited.append((state[0], action))
 
     return action
 
@@ -49,7 +52,16 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     Arguments: reward: floting point, state: integer
     Returns: action: integer
     """
+
+    global visited, returns, pi
+
     # select an action, based on Q
+    if visited[-1] in returns:
+        returns[visited[-1]].append(reward)
+    else:
+        returns[visited[-1]] = [reward]
+
+    action = pi[state[0]]
     
     return action
 
