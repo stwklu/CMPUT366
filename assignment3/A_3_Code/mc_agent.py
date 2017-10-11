@@ -86,17 +86,10 @@ def agent_end(reward):
         else:
             returns[stop] = [reward]
 
-    # print("Rewards")
-    # print(returns)
-
-    # print(Q)
+    
     for key in returns:
-        # print(key)
-        # print(key[0])
-        # print(key[1])
-        # print(Q[key[0]][key[1]])
+
         Q[key[0]][key[1]] = (sum(returns[(key[0], key[1])]) / len(returns[(key[0], key[1])]))
-        # print(sum(returns[(key[0], key[1])] / len(returns[(key[0], key[1])])))
 
     # print()
     for state in range(1, 100):        
