@@ -21,7 +21,16 @@ def agent_init():
     Returns: nothing
     """
 
+    global Q, pi, returns
+
     #initialize the policy array in a smart way
+    Q = np.full((101, 101), 0.0)
+    pi = np.zeros(101)
+    returns = {}
+    
+    for state in range(1,100):
+        pi[state] = min(state, 100 - state)
+
 
 def agent_start(state):
     """
