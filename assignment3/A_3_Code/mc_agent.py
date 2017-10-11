@@ -11,11 +11,11 @@ from utils import rand_in_range, rand_un
 import numpy as np
 import pickle
 
-Q = np.full((101, 101), 0.0)
+Q = np.full((101, 51), 0.0)
 pi = np.zeros(101)
-total_returns = np.zeros((101, 101))
-total_visits = np.full((101, 101), 1.0)
-visited = np.zeros((101, 101))
+returns = {}
+path = []
+
 
 def agent_init():
     """
@@ -23,9 +23,17 @@ def agent_init():
     Returns: nothing
     """
 
-    global pi
+    global Q, pi, returns, path
 
     #initialize the policy array in a smart way
+    Q = np.full((101, 51), 0.0)
+    pi = np.zeros(101)
+    returns = {}
+    path = []
+    
+    for state in range(1,100):
+        pi[state] = min(state, 100 - state)
+
 
     for state in range(1,100):
         pi[state] = min(state, 100 - state)
@@ -37,9 +45,14 @@ def agent_start(state):
     Arguments: state: numpy array
     Returns: action: integer
     """
+    global Q, pi, returns, path
+
     # pick the first action, don't forget about exploring starts 
-    action = rand_in_range(min(state[0], 100 - state[0])) + 1
-    
+    action = np.random.random_integers(1, min(state[0], 100 - state[0]))
+    path = [] # Clear path every episode or else would reward previous episode paths
+
+    if action == 0:
+        print("ACTION ZERO IN START")
     return action
 
 
@@ -49,15 +62,15 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     Returns: action: integer
     """
 
-    global Q, visited
+    global Q, pi, returns, path
 
     # select an action, based on Q
-    action = np.argmax(Q[state][0])
+    action = int(pi[state])
 
-    if (action == 0):
-        action = 1
+    if action == 0:
+        print("Zero in step")
 
-    visited[state[0]][action] += 1
+    path.append((state[0], action))
 
     return action
 
@@ -67,27 +80,27 @@ def agent_end(reward):
     Returns: Nothing
     """
 
-    global total_returns, total_visits, visited, Q, pi
-
+    global Q, returns, path
     # do learning and update pi
-
-    total_returns += (visited * reward) # Matrix multiplied by a float
-    total_visits += visited # Matrix addition
     
-    visited = np.zeros((101, 101))
+    for stop in path:
+        # print(stop)
+        if stop in returns:
+            returns[stop].append(reward)
+        else:
+            returns[stop] = [reward]
 
-    np.seterr(divide='ignore')
-    Q = total_returns / total_visits
-
-    for state in range(1, 100):
-        pi[state] = np.argmax(Q[state])
     
-    # print(pi)
-    # print(Q)
-    # print(total_returns)
-    # print(total_visits)
-    # print("#############################################################################")
+    for key in returns:
 
+        Q[key[0]][key[1]] = (sum(returns[(key[0], key[1])]) / len(returns[(key[0], key[1])]))
+
+    # print()
+    for state in range(1, 100):        
+        if np.argmax(Q[state]) == 0:
+            pi[state] = rand_in_range(min(state, 100 - state)) + 1
+        else:
+            pi[state] = np.argmax(Q[state])
     return
 
 def agent_cleanup():

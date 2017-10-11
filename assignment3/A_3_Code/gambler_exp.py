@@ -50,4 +50,4 @@ if __name__ == "__main__":
         # therefore data is (num_runs x length of value fucntion)
         average_v_over_runs[i] = np.mean(data, axis=0)
 
-    np.save("ValueFunction", average_v_over_runs)
+    np.save("Value", average_v_over_runs)
