@@ -11,7 +11,7 @@ from utils import rand_in_range, rand_un
 import numpy as np
 import pickle
 
-Q = np.full((101, 101), 0.0)
+Q = np.full((101, 51), 0.0)
 pi = np.zeros(101)
 returns = {}
 path = []
@@ -26,7 +26,7 @@ def agent_init():
     global Q, pi, returns, path
 
     #initialize the policy array in a smart way
-    Q = np.full((101, 101), 0.0)
+    Q = np.full((101, 51), 0.0)
     pi = np.zeros(101)
     returns = {}
     path = []
@@ -76,24 +76,34 @@ def agent_end(reward):
     Returns: Nothing
     """
 
-    global Q, pi, returns, path
+    global Q, returns, path
     # do learning and update pi
-
-    for state, action in path:
-        if (state, action) in returns:
-            returns[(state, action)].append(reward)
-        else:
-            returns[(state, action)] = [reward]
-
-    for state, action in returns:
-        Q[state][action] = sum(returns[(state, action)]) / float(len(returns[(state, action)]))
     
-    for state in range(1, 100):
+    for stop in path:
+        # print(stop)
+        if stop in returns:
+            returns[stop].append(reward)
+        else:
+            returns[stop] = [reward]
+
+    # print("Rewards")
+    # print(returns)
+
+    # print(Q)
+    for key in returns:
+        # print(key)
+        # print(key[0])
+        # print(key[1])
+        # print(Q[key[0]][key[1]])
+        Q[key[0]][key[1]] = (sum(returns[(key[0], key[1])]) / len(returns[(key[0], key[1])]))
+        # print(sum(returns[(key[0], key[1])] / len(returns[(key[0], key[1])])))
+
+    # print()
+    for state in range(1, 100):        
         if np.argmax(Q[state]) == 0:
-            continue
+            pi[state] = rand_in_range(min(state, 100 - state)) + 1
         else:
             pi[state] = np.argmax(Q[state])
-
     return
 
 def agent_cleanup():
