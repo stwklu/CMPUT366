@@ -10,8 +10,8 @@
 from utils import rand_norm, rand_in_range, rand_un
 import numpy as np
 
-start = np.array([0, 3])
-current_state = np.zeros(2)
+start = [0, 3]
+current_state = [0, 0]
 goal = [7, 3]
 wind = [0, 0, 0, 1, 1, 1, 2, 2, 1, 0]
 max_x = 9 #inclusive
@@ -43,9 +43,8 @@ def env_step(action):
         dictionary with keys {reward, state, isTerminal} containing the results
         of the action taken
     """
-    global current_state, wind, max_x, max_y
-
-    new_state = np.zeros(2)
+    global current_state, goal, wind, max_x, max_y
+    new_state = [0, 0]
 
     # (deep) copy?
     new_state[0] = current_state[0] + action[0]
