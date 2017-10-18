@@ -32,6 +32,6 @@ if __name__ == "__main__":
     steps += RL_num_steps()
     episodes = RL_num_episodes()
 
-    output.write(str(steps) + "," + str(episodes))
+    output.write(str(steps) + "," + str(episodes) + "\n")
 
 output.close()

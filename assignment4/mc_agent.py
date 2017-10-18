@@ -32,6 +32,7 @@ action_list = [
     [0, 0] # Nothing
 ]
 last_action = None
+last_state = None
 ### GLOBALS ###
 
 
@@ -44,7 +45,7 @@ def agent_init():
     global actions_permitted, Q
     #initialize the policy array in a smart way
 
-    Q = np.zeros((9, 6, actions_permitted)) # Size specific to our example
+    Q = np.zeros((9+1, 6+1, actions_permitted)) # Size specific to our example
 
 def agent_start(state):
     """
@@ -52,7 +53,7 @@ def agent_start(state):
     Arguments: state: numpy array
     Returns: action: integer
     """
-    global actions_permitted, Q, action_list, last_action
+    global actions_permitted, Q, action_list, last_action, last_state
     
     # pick the first action, don't forget about exploring starts 
     if rand_un() < epsilon:
@@ -60,6 +61,7 @@ def agent_start(state):
     else:
         action = action_list[np.argmax(Q[state[0]][state[1]])]
     last_action = action
+    last_state = state
 
     return action
 
@@ -69,19 +71,19 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     Arguments: reward: floting point, state: integer
     Returns: action: integer
     """
-    global alpha, gamma, actions_permitted, Q, action_list, last_action
+    global alpha, gamma, actions_permitted, Q, action_list, last_action, last_state
 
     # select an action, based on Q
-
     if rand_un() < epsilon:
         action = action_list[rand_in_range(actions_permitted)]
     else:
         action = action_list[np.argmax(Q[int(state[0])][int(state[1])])]
 
-    Q[last_action[0], last_action[1]] += alpha * (reward + gamma * Q[int(state[0])][int(state[1])] - Q[last_action[0], last_action[1]])
+    Q[last_state[0], last_state[1]][find_action(last_action)] += alpha * (reward + gamma * Q[int(state[0])][int(state[1])][find_action(action)] - Q[last_state[0], last_state[1]][find_action(action)])
 
-    last_action = state
-    
+    last_action = action
+    last_state = state
+
     return action
 
 def agent_end(reward):
@@ -113,3 +115,7 @@ def agent_message(in_message): # returns string, in_message: string
     else:
         return "I don't know what to return!!"
 
+
+def find_action(action):
+    global action_list
+    return action_list.index(action)
