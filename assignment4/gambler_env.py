@@ -10,7 +10,8 @@
 from utils import rand_norm, rand_in_range, rand_un
 import numpy as np
 
-current_state = [0, 3]
+start = np.array([0, 3])
+current_state = np.zeros(2)
 goal = [7, 3]
 wind = [0, 0, 0, 1, 1, 1, 2, 2, 1, 0]
 max_x = 9 #inclusive
@@ -18,15 +19,15 @@ max_y = 6 #inclusive
 
 def env_init():
     global current_state
-    current_state = np.zeros(1)
+    # current_state = np.zeros(1)
 
+    pass
 
 def env_start():
     """ returns numpy array """
-    global current_state
+    global current_state, start
 
-    state = rand_in_range(num_total_states) + 1 # This is required for exploring starts
-    current_state = np.asarray([state])
+    current_state = state
     return current_state
 
 def env_step(action):
