@@ -40,10 +40,10 @@ def agent_init():
     Hint: Initialize the variables that need to be reset before each run begins
     Returns: nothing
     """
-
+    global actions_permitted, Q
     #initialize the policy array in a smart way
 
-    Q = np.zeros((9, 6)) # Size specific to our example
+    Q = np.zeros((9, 6, actions_permitted)) # Size specific to our example
 
 def agent_start(state):
     """
@@ -57,7 +57,7 @@ def agent_start(state):
     if rand_un() < epsilon:
         action = action_list[rand_in_range(actions_permitted)]
     else:
-        action = np.argmax(Q)
+        action = np.argmax(Q[state[0]][state[1]])
 
     return action
 
