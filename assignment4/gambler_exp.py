@@ -15,10 +15,23 @@ RLGlue("gambler_env", "mc_agent")
 import numpy as np
 import pickle
 
+import sys
+
 if __name__ == "__main__":
   max_steps = 8000
 
-  RL_init()
+  steps = 0
+  episodes = 0
 
-  RL_episode(max_steps)
-  print(RL_num_episodes(), RL_num_steps())
+  output = open("output.dat", "w")
+
+  RL_init()
+  while steps < max_steps:
+    RL_episode(max_steps)
+
+    steps += RL_num_steps()
+    episodes = RL_num_episodes()
+
+    output.write(str(steps) + "," + str(episodes))
+
+output.close()
