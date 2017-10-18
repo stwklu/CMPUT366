@@ -34,7 +34,7 @@ def env_step(action):
     """
     Arguments
     ---------
-    action : int
+    action : array = [change_in_x, change_in_y]
         the action taken by the agent in the current state
 
     Returns
@@ -43,27 +43,31 @@ def env_step(action):
         dictionary with keys {reward, state, isTerminal} containing the results
         of the action taken
     """
-    global current_state
-    if action < 1 or action > np.minimum(current_state[0], num_total_states + 1 - current_state[0]):
-        print "Invalid action taken!!"
-        print "action : ", action
-        print "current_state : ", current_state
-        exit(1)
+    global current_state, wind, max_x, max_y
 
-    if rand_un() < head_probability:
-        current_state[0] = current_state[0] + action
-    else:
-        current_state[0] = current_state[0] - action
+    new_state = np.zeros(2)
+
+    # (deep) copy?
+    new_state[0] = current_state[0] + action[0]
+    new_state[1] = current_state[1] + (action[1] + wind[wind[current_state[1]]]
+
+    if new_state[0] > max_x:
+        new_state[0] = max_x
+    if new_state[1] > max_y:
+        new_state[1] = max_y
+    
+    current_state = new_state
     
     reward = 0.0
     is_terminal = False
-    if current_state[0] == num_total_states + 1:
+    if current_state == goal:
         is_terminal = True
-        current_state = None
-        reward = 1.0
-    elif current_state[0] == 0:
-        is_terminal = True
-        current_state = None
+        # current_state = None
+        # reward = 1.0
+    else:
+        # is_terminal = True
+        # current_state = None
+        reward = -1.0
 
     result = {"reward": reward, "state": current_state, "isTerminal": is_terminal}
 
