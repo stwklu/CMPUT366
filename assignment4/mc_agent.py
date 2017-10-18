@@ -14,6 +14,7 @@ import pickle
 ### PARAMETERS ###
 alpha = 0.1
 epsilon = 0.1
+gamma = 1
 actions_permitted = 8
 ### PARAMETERS ###
 
@@ -51,13 +52,14 @@ def agent_start(state):
     Arguments: state: numpy array
     Returns: action: integer
     """
-    global actions_permitted, Q, action_list
+    global actions_permitted, Q, action_list, last_action
+    
     # pick the first action, don't forget about exploring starts 
-
     if rand_un() < epsilon:
         action = action_list[rand_in_range(actions_permitted)]
     else:
-        action = np.argmax(Q[state[0]][state[1]])
+        action = action_list[np.argmax(Q[state[0]][state[1]])]
+    last_action = action
 
     return action
 
@@ -67,7 +69,19 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     Arguments: reward: floting point, state: integer
     Returns: action: integer
     """
+    global alpha, gamma, actions_permitted, Q, action_list, last_action
+
     # select an action, based on Q
+
+    if rand_un() < epsilon:
+        action = action_list[rand_in_range(actions_permitted)]
+    else:
+        action = action_list[np.argmax(Q[int(state[0])][int(state[1])])]
+
+    Q[last_action[0], last_action[1]] += alpha * (reward + gamma * Q[int(state[0])][int(state[1])] - Q[last_action[0], last_action[1]])
+
+    last_action = state
+    
     return action
 
 def agent_end(reward):
