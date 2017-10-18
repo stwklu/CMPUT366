@@ -11,6 +11,30 @@ from utils import rand_in_range, rand_un
 import numpy as np
 import pickle
 
+### PARAMETERS ###
+alpha = 0.1
+epsilon = 0.1
+actions_permitted = 8
+### PARAMETERS ###
+
+### GLOBALS ###
+Q = None # Where [0] is x and [1] is y
+action_list = [
+    [1, 0], # E
+    [0, -1], # S
+    [-1, 0], # W
+    [0, 1], # N
+    [1, 1], # NE
+    [1, -1], # SE
+    [-1, -1], # SW
+    [-1, 1],  # NW
+    [0, 0] # Nothing
+]
+last_action = None
+### GLOBALS ###
+
+
+
 def agent_init():
     """
     Hint: Initialize the variables that need to be reset before each run begins
@@ -19,13 +43,22 @@ def agent_init():
 
     #initialize the policy array in a smart way
 
+    Q = np.zeros((9, 6)) # Size specific to our example
+
 def agent_start(state):
     """
     Hint: Initialize the variavbles that you want to reset before starting a new episode
     Arguments: state: numpy array
     Returns: action: integer
     """
+    global actions_permitted, Q, action_list
     # pick the first action, don't forget about exploring starts 
+
+    if rand_un() < epsilon:
+        action = action_list[rand_in_range(actions_permitted)]
+    else:
+        action = np.argmax(Q)
+
     return action
 
 
@@ -35,7 +68,6 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     Returns: action: integer
     """
     # select an action, based on Q
-    
     return action
 
 def agent_end(reward):

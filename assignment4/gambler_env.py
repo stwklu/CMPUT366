@@ -60,7 +60,7 @@ def env_step(action):
     
     reward = 0.0
     is_terminal = False
-    if current_state == goal:
+    if current_state[0] == goal[0] and current_state[1] == goal[1]:
         is_terminal = True
         # current_state = None
         # reward = 1.0
