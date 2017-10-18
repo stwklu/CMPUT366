@@ -16,7 +16,9 @@ import numpy as np
 import pickle
 
 if __name__ == "__main__":
-    max_steps = 8000
+  max_steps = 8000
 
-    RL_episode(max_steps)
-    print(RL_num_episodes(), RL_num_steps())
+  RL_init()
+
+  RL_episode(max_steps)
+  print(RL_num_episodes(), RL_num_steps())
