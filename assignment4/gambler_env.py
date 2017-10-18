@@ -27,7 +27,7 @@ def env_start():
     """ returns numpy array """
     global current_state, start
 
-    current_state = state
+    current_state = start
     return current_state
 
 def env_step(action):
@@ -49,7 +49,7 @@ def env_step(action):
 
     # (deep) copy?
     new_state[0] = current_state[0] + action[0]
-    new_state[1] = current_state[1] + (action[1] + wind[wind[current_state[1]]]
+    new_state[1] = current_state[1] + (action[1] + wind[wind[current_state[1]]])
 
     if new_state[0] > max_x:
         new_state[0] = max_x
