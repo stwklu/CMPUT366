@@ -10,9 +10,11 @@
 from utils import rand_norm, rand_in_range, rand_un
 import numpy as np
 
-head_probability = 0.55 # head_probability: floating point
-num_total_states = 99 # num_total_states: integer
-current_state = None
+current_state = [0, 3]
+goal = [7, 3]
+wind = [0, 0, 0, 1, 1, 1, 2, 2, 1, 0]
+max_x = 9 #inclusive
+max_y = 6 #inclusive
 
 def env_init():
     global current_state
