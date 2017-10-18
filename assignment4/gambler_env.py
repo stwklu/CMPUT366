@@ -48,12 +48,16 @@ def env_step(action):
 
     # (deep) copy?
     new_state[0] = current_state[0] + action[0]
-    new_state[1] = current_state[1] + (action[1] + wind[wind[current_state[1]]])
+    new_state[1] = current_state[1] + (action[1] + wind[current_state[0]])
 
     if new_state[0] > max_x:
         new_state[0] = max_x
+    if new_state[0] < 0:
+        new_state[0] = 0
     if new_state[1] > max_y:
         new_state[1] = max_y
+    if new_state[1] < 0:
+        new_state[1] = 0
     
     current_state = new_state
     
