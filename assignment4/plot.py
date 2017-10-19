@@ -9,14 +9,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
-   V = np.load('ValueFunction.npy')
-   plt.show()
-   print V.shape
-   for i, episode_num in enumerate([100, 1000, 8000]):
-     plt.plot(V[i, :], label='episode : ' + str(episode_num))
-     plt.xlim([0,100])
-     plt.xticks([1,25,50,75,99])
-     plt.xlabel('Capital')
-     plt.ylabel('Value estimates')
-     plt.legend()
-   plt.show()
+  output = open("output.dat", "r")
+  data_x = []
+  data_y = []
+
+  for episode in output:
+    episode_data = episode.strip().split(",")
+    data_x.append(episode_data[0])
+    data_y.append(episode_data[1])
+
+  for i in range(len(data_x)-1):
+    plt.plot(int(data_x[i]), int(data_y[i]), "ro")
+
+  plt.show()
