@@ -12,7 +12,7 @@ import numpy as np
 import pickle
 
 ### PARAMETERS ###
-alpha = 0.1
+alpha = 0.5
 epsilon = 0.1
 gamma = 1
 actions_permitted = 8
@@ -79,7 +79,7 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     else:
         action = action_list[np.argmax(Q[int(state[0])][int(state[1])])]
 
-    Q[last_state[0], last_state[1]][find_action(last_action)] += alpha * (reward + gamma * Q[int(state[0])][int(state[1])][find_action(action)] - Q[last_state[0], last_state[1]][find_action(action)])
+    Q[last_state[0], last_state[1], find_action(last_action)] += alpha * (reward + gamma * Q[int(state[0]), int(state[1]), find_action(action)] - Q[last_state[0], last_state[1], find_action(last_action)])
 
     last_action = action
     last_state = state
