@@ -10,7 +10,7 @@
 """
 
 from rl_glue import *  # Required for RL-Glue
-RLGlue("gambler_env", "mc_agent")
+RLGlue("windy_env", "sarsa_agent")
 
 import numpy as np
 import pickle
