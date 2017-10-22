@@ -12,10 +12,10 @@ import numpy as np
 import pickle
 
 ### PARAMETERS ###
-alpha = 0.5
-epsilon = 0.1
+alpha = 0.5 # Pg. 107
+epsilon = 0.1 # Pg. 107
 gamma = 1
-actions_permitted = 8
+actions_permitted = 9
 ### PARAMETERS ###
 
 ### GLOBALS ###
