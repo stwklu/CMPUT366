@@ -1,5 +1,5 @@
 As can be seen by looking at 8moves.png and 9moves.png, the 8 moves performs better. The proof is that 8 moves completes more episodes in 8000 moves, meaning that the optimal path found is shorter. 9 moves must have a longer path. Still, both complete around double the number of episodes that 4 move completed in the textbook.
 
-The reason for the decrease with 9 moves may be that more actions, TD would need a longer period of time. Essentially, there are more actions to try, and this would then require more episodes in order to learn the optimal path. Perhaps with more episodes 9 moves may begin to beat 8 moves consistently.
+The reason for the decrease with 9 moves may be that more actions, TD would need a longer period of time. Essentially, there are more actions to try, and this would then require more episodes in order to learn the optimal path. Perhaps with more episodes 9 moves may begin to beat 8 moves consistently. The player  also becomes victim to the wind which adds more complexity and less control with 9 moves.
 
 I used an alpha of 0.5 and epsilon of 0.1 as these were the values given in the textbook for the problem on the top of Page 107.
