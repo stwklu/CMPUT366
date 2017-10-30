@@ -11,13 +11,22 @@ from utils import rand_in_range, rand_un
 import numpy as np
 import pickle
 
+### GLOBALS ###
+Q = None
+model = None
+S = None
+### GLOBALS ###
+
+
 def agent_init():
     """
     Hint: Initialize the variables that need to be reset before each run begins
     Returns: nothing
     """
+    globals Q, model, S
 
-    #initialize the policy array in a smart way
+    Q = np.zeros((6,9,4))
+    model = np.zeros((6,9,4))
 
 def agent_start(state):
     """
@@ -26,6 +35,10 @@ def agent_start(state):
     Returns: action: integer
     """
     # pick the first action, don't forget about exploring starts 
+    globals S
+
+    S = state
+    
     return action
 
 
