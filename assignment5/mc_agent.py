@@ -10,11 +10,13 @@
 from utils import rand_in_range, rand_un
 import numpy as np
 import pickle
+import random
 
 ### PARAMETERS ###
 alpha = 0.1
 epsilon = 0.1
 gamma = 0.95
+n = 5
 ### PARAMETERS ###
 
 ### GLOBALS ###
@@ -23,6 +25,7 @@ model = None
 S = None
 last_action = None
 S_ = None
+previous_states = None
 ### GLOBALS ###
 
 
@@ -31,10 +34,11 @@ def agent_init():
     Hint: Initialize the variables that need to be reset before each run begins
     Returns: nothing
     """
-    globals Q, model,
+    globals Q, model, previous_states
 
     Q = np.zeros((6,9,4))
     model = np.zeros((6,9,4))
+    previous_states  []
 
 def agent_start(state):
     """
@@ -53,6 +57,9 @@ def agent_start(state):
         action = np.argmax(maze[S])
     
     last_action = action
+    
+    if [state, action] not in previous_states:
+        previous_states.append([state, action])
 
     return action
 
@@ -63,12 +70,25 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     Returns: action: integer
     """
     # select an action, based on Q
-    globals epsilon, maze, Q, last_action, S, alpha, S_, model
+    globals epsilon, maze, Q, last_action, S, alpha, S_, model, n
 
     S_ = state
 
+    if [state, action] not in previous_states:
+        previous_states.append([state, action])
+
     Q[S][last_action] += alpha * (reward + gamma * np.argmax(Q[S_]) - Q[S][last_action])
     model[S][last_action] = [reward, S_]
+
+    for  i in range(n):
+        rand = random.choice(previous_states)
+        S_rand = rand[0]
+        A_rand = rand[1]
+        R_model = model[S_rand][A_rand[0]
+        S_model = model[S_rand][A_rand[1]
+
+        Q[S_rand][A_rand] += alpha * (R_model + gamma * np.argmax(Q[S_model]) - Q[S_rand][A_rand])
+
 
     if rand_un() < epsilon:
         action = rand_in_range(4)
