@@ -10,9 +10,16 @@
 from utils import rand_norm, rand_in_range, rand_un
 import numpy as np
 
-head_probability = 0.55 # head_probability: floating point
-num_total_states = 99 # num_total_states: integer
-current_state = None
+maze = np.zeros((6,9))
+start = np.array([3,0])
+goal = np.array([5,8])
+walls = np.array([[1,2], [2,2], [3,2], [4,5], [0,7], [1,7], [2,7]])
+
+for wall in walls:
+    print(wall)
+    maze[wall[0]][wall[1]] = 1
+
+print(maze)
 
 def env_init():
     global current_state
