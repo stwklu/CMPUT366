@@ -38,7 +38,7 @@ def agent_init():
 
     Q = np.zeros((6,9,4))
     model = np.zeros((6,9,4))
-    previous_states  []
+    previous_states = []
 
 def agent_start(state):
     """
@@ -47,14 +47,14 @@ def agent_start(state):
     Returns: action: integer
     """
     # pick the first action, don't forget about exploring starts 
-    global S, epsilon, last_action,
+    global S, epsilon, last_action, Q
 
     S = state
 
     if rand_un() < epsilon:
         action = rand_in_range(4)
     else:
-        action = argmax(maze[S])
+        action = argmax(Q[S])
     
     last_action = action
     
@@ -84,8 +84,8 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
         rand = random.choice(previous_states)
         S_rand = rand[0]
         A_rand = rand[1]
-        R_model = model[S_rand][A_rand[0]
-        S_model = model[S_rand][A_rand[1]
+        R_model = model[S_rand][A_rand][0]
+        S_model = model[S_rand][A_rand][1]
 
         Q[S_rand][A_rand] += alpha * (R_model + gamma * argmax(Q[S_model]) - Q[S_rand][A_rand])
 
