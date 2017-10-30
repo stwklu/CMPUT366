@@ -19,19 +19,19 @@ for wall in walls:
     print(wall)
     maze[wall[0]][wall[1]] = 1
 
-print(maze)
+current_state = start
+
 
 def env_init():
-    global current_state
-    current_state = np.zeros(1)
+    global current_state, start
+    current_state = start
 
 
 def env_start():
     """ returns numpy array """
-    global current_state
+    global current_state, start
 
-    state = rand_in_range(num_total_states) + 1 # This is required for exploring starts
-    current_state = np.asarray([state])
+    state = start
     return current_state
 
 def env_step(action):
