@@ -34,7 +34,7 @@ def agent_init():
     Hint: Initialize the variables that need to be reset before each run begins
     Returns: nothing
     """
-    globals Q, model, previous_states
+    global Q, model, previous_states
 
     Q = np.zeros((6,9,4))
     model = np.zeros((6,9,4))
@@ -47,7 +47,7 @@ def agent_start(state):
     Returns: action: integer
     """
     # pick the first action, don't forget about exploring starts 
-    globals S, epsilon, last_action,
+    global S, epsilon, last_action,
 
     S = state
 
@@ -70,7 +70,7 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     Returns: action: integer
     """
     # select an action, based on Q
-    globals epsilon, maze, Q, last_action, S, alpha, S_, model, n
+    global epsilon, maze, Q, last_action, S, alpha, S_, model, n
 
     S_ = state
 
