@@ -16,7 +16,6 @@ goal = np.array([5,8])
 walls = np.array([[1,2], [2,2], [3,2], [4,5], [0,7], [1,7], [2,7]])
 
 for wall in walls:
-    print(wall)
     maze[wall[0]][wall[1]] = 1
 
 current_state = start
@@ -47,27 +46,35 @@ def env_step(action):
         dictionary with keys {reward, state, isTerminal} containing the results
         of the action taken
     """
-    global current_state
-    if action < 1 or action > np.minimum(current_state[0], num_total_states + 1 - current_state[0]):
-        print "Invalid action taken!!"
-        print "action : ", action
-        print "current_state : ", current_state
-        exit(1)
+    global current_state, maze, goal
 
-    if rand_un() < head_probability:
-        current_state[0] = current_state[0] + action
-    else:
-        current_state[0] = current_state[0] - action
+    new_state = current_state
     
-    reward = 0.0
-    is_terminal = False
-    if current_state[0] == num_total_states + 1:
+    if action == 1: #east
+        new_state += [1,0]
+    elif action == 2: #south
+        new_state += [0,1]
+    elif action == 3: #west
+        new_state += [-1,0]
+    elif action == 4: #north
+        new_state += [0,-1]
+    else:
+        raise Exception("Unknown action taken!")
+
+    # Check within bounds
+    if new_state[0] < maze.shape[0] and new_state[0] >= 0:
+        if new_state[1] < maze.shape[1] and new_state[1] >= 1:
+            # Check for wall
+            if maze[new_state] != 1:
+                current_state = new_state
+    
+    
+    if current_state ==  goal:
+        reward = 1
         is_terminal = True
-        current_state = None
-        reward = 1.0
-    elif current_state[0] == 0:
-        is_terminal = True
-        current_state = None
+    else:
+        reward = 0
+        is_terminal = False
 
     result = {"reward": reward, "state": current_state, "isTerminal": is_terminal}
 
