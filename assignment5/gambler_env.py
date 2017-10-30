@@ -50,13 +50,13 @@ def env_step(action):
 
     new_state = current_state
     
-    if action == 1: #east
+    if action == 0: #east
         new_state += [1,0]
-    elif action == 2: #south
+    elif action == 1: #south
         new_state += [0,1]
-    elif action == 3: #west
+    elif action == 2: #west
         new_state += [-1,0]
-    elif action == 4: #north
+    elif action == 3: #north
         new_state += [0,-1]
     else:
         raise Exception("Unknown action taken!")
