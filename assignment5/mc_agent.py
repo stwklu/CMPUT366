@@ -54,7 +54,7 @@ def agent_start(state):
     if rand_un() < epsilon:
         action = rand_in_range(4)
     else:
-        action = np.argmax(maze[S])
+        action = argmax(maze[S])
     
     last_action = action
     
@@ -77,7 +77,7 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     if [state, action] not in previous_states:
         previous_states.append([state, action])
 
-    Q[S][last_action] += alpha * (reward + gamma * np.argmax(Q[S_]) - Q[S][last_action])
+    Q[S][last_action] += alpha * (reward + gamma * argmax(Q[S_]) - Q[S][last_action])
     model[S][last_action] = [reward, S_]
 
     for  i in range(n):
@@ -87,13 +87,13 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
         R_model = model[S_rand][A_rand[0]
         S_model = model[S_rand][A_rand[1]
 
-        Q[S_rand][A_rand] += alpha * (R_model + gamma * np.argmax(Q[S_model]) - Q[S_rand][A_rand])
+        Q[S_rand][A_rand] += alpha * (R_model + gamma * argmax(Q[S_model]) - Q[S_rand][A_rand])
 
 
     if rand_un() < epsilon:
         action = rand_in_range(4)
     else:
-        action = np.argmax(maze[S[0]][S[1]])
+        action = argmax(maze[S[0]][S[1]])
     
     return action
 
@@ -126,3 +126,7 @@ def agent_message(in_message): # returns string, in_message: string
     else:
         return "I don't know what to return!!"
 
+def argmax(a):
+    # Robert Kern
+    # https://mail.scipy.org/pipermail/numpy-discussion/2015-March/072459.html
+    np.random.choice(np.where(a == a.max())[0])
