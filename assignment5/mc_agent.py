@@ -37,7 +37,7 @@ def agent_init():
     global Q, model, previous_states
 
     Q = np.zeros((6,9,4))
-    model = np.zeros((6,9,4))
+    model = np.zeros((6,9,4), object)
     previous_states = []
 
 def agent_start(state):
@@ -74,11 +74,11 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
 
     S_ = state
 
-    if [state, action] not in previous_states:
-        previous_states.append([state, action])
+    if [state, last_action] not in previous_states:
+        previous_states.append([state, last_action])
 
-    Q[S][last_action] += alpha * (reward + gamma * argmax(Q[S_]) - Q[S][last_action])
-    model[S][last_action] = [reward, S_]
+    Q[S[0]][S[1]][last_action] += alpha * (reward + gamma * argmax(Q[S_[0]][S_[1]]) - Q[S[0]][S[1]][last_action])
+    model[S[0]][S[1]][last_action] = (reward, S_[0], S_[1])
 
     for  i in range(n):
         rand = random.choice(previous_states)

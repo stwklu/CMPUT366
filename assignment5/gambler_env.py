@@ -9,16 +9,16 @@
 
 from utils import rand_norm, rand_in_range, rand_un
 import numpy as np
+import copy 
 
 maze = np.zeros((6,9))
 start = np.array([3,0])
 goal = np.array([5,8])
 walls = np.array([[1,2], [2,2], [3,2], [4,5], [0,7], [1,7], [2,7]])
+current_state = np.zeros(2)
 
 for wall in walls:
     maze[wall[0]][wall[1]] = 1
-
-current_state = start
 
 
 def env_init():
@@ -30,7 +30,8 @@ def env_start():
     """ returns numpy array """
     global current_state, start
 
-    state = start
+    current_state = start
+
     return current_state
 
 def env_step(action):
@@ -48,7 +49,7 @@ def env_step(action):
     """
     global current_state, maze, goal
 
-    new_state = current_state
+    new_state = copy.deepcopy(current_state)
     
     if action == 0: #east
         new_state += [1,0]
@@ -61,16 +62,14 @@ def env_step(action):
     else:
         raise Exception("Unknown action taken! Action: " + str(action))
 
-
     # Check within bounds
     if new_state[0] < maze.shape[0] and new_state[0] >= 0:
         if new_state[1] < maze.shape[1] and new_state[1] >= 1:
             # Check for wall
-            if maze[new_state] != 1:
+            if maze[new_state[0]][new_state[1]] != 1:
                 current_state = new_state
     
-    
-    if current_state ==  goal:
+    if current_state[0] ==  goal[0] and current_state[1] == goal[1]:
         reward = 1
         is_terminal = True
     else:
