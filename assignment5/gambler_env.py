@@ -12,7 +12,7 @@ import numpy as np
 import copy 
 
 maze = np.zeros((6,9))
-start = np.array([3,0])
+start = np.array([2,0])
 goal = np.array([5,8])
 walls = np.array([[1,2], [2,2], [3,2], [4,5], [0,7], [1,7], [2,7]])
 current_state = np.zeros(2)

@@ -38,7 +38,7 @@ def agent_init():
 
     Q = np.zeros((6,9,4))
     model = np.zeros((6,9,4), object)
-    previous_states = []
+    previous_states = {}
 
 def agent_start(state):
     """
@@ -54,12 +54,10 @@ def agent_start(state):
     if rand_un() < epsilon:
         action = rand_in_range(4)
     else:
-        action = argmax(Q[S])
+        action = argmax(Q[S[0]][S[1]])
     
     last_action = action
-    
-    if [state, action] not in previous_states:
-        previous_states.append([state, action])
+    S = state
 
     return action
 
@@ -74,26 +72,25 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
 
     S_ = state
 
-    if [state, last_action] not in previous_states:
-        previous_states.append([state, last_action])
+    if (S[0],S[1]) not in previous_states:
+        previous_states[(S[0],S[1])] = []
+    previous_states[(S[0],S[1])].append(last_action)
 
-    Q[S[0]][S[1]][last_action] += alpha * (reward + gamma * argmax(Q[S_[0]][S_[1]]) - Q[S[0]][S[1]][last_action])
+    Q[S[0]][S[1]][last_action] += alpha * (reward + gamma * max(Q[S_[0]][S_[1]]) - Q[S[0]][S[1]][last_action])
     model[S[0]][S[1]][last_action] = (reward, S_[0], S_[1])
 
     for  i in range(n):
-        rand = random.choice(previous_states)
-        S_rand = rand[0]
-        A_rand = rand[1]
-        R_model = model[S_rand][A_rand][0]
-        S_model = model[S_rand][A_rand][1]
+        S_planning = random.choice(previous_states.keys())
+        A_planning = random.choice(previous_states[S_planning])
+        # print(model[S_planning[0]][S_planning[1]][A_planning])
+        reward_planning, x_planning, y_planning = model[S_planning[0]][S_planning[1]][A_planning]
 
-        Q[S_rand][A_rand] += alpha * (R_model + gamma * argmax(Q[S_model]) - Q[S_rand][A_rand])
-
+        Q[S_planning[0]][S_planning[1]][A_planning] += alpha * (reward_planning + gamma * max(Q[x_planning][y_planning]) -  Q[S_planning[0]][S_planning[1]][A_planning])
 
     if rand_un() < epsilon:
         action = rand_in_range(4)
     else:
-        action = argmax(maze[S[0]][S[1]])
+        action = argmax(Q[S[0]][S[1]])
     
     return action
 
