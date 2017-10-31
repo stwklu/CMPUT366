@@ -129,4 +129,4 @@ def agent_message(in_message): # returns string, in_message: string
 def argmax(a):
     # Robert Kern
     # https://mail.scipy.org/pipermail/numpy-discussion/2015-March/072459.html
-    np.random.choice(np.where(a == a.max())[0])
+    return np.random.choice(np.where(a == a.max())[0])

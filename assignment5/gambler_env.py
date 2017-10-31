@@ -59,7 +59,8 @@ def env_step(action):
     elif action == 3: #north
         new_state += [0,-1]
     else:
-        raise Exception("Unknown action taken!")
+        raise Exception("Unknown action taken! Action: " + str(action))
+
 
     # Check within bounds
     if new_state[0] < maze.shape[0] and new_state[0] >= 0:
