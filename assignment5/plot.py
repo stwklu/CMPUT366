@@ -15,6 +15,8 @@ if __name__ == "__main__":
 
   plt.xlim([0,50])
   plt.ylim([0,850])
+  plt.xlabel("Episodes")
+  plt.ylabel("Steps per episode")
 
   plt.plot(output0, label="n = 0 (direct RL only)")
   plt.plot(output5, label="n = 5")
