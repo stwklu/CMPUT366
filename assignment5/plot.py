@@ -9,16 +9,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
-  V = np.load('output.npy')
-  plt.show()
-  print V.shape
-  plt.plot(V)
+  output0 = np.load('output0.npy')
+  output5 = np.load('output5.npy')
+  output50 = np.load('output50.npy')
 
-  #  for i, episode_num in enumerate([100, 1000, 8000]):
-  #    plt.plot(V[i, :], label='episode : ' + str(episode_num))
-  #    plt.xlim([0,100])
-  #    plt.xticks([1,25,50,75,99])
-  #    plt.xlabel('Capital')
-  #    plt.ylabel('Value estimates')
-  #    plt.legend()
+  plt.xlim([0,50])
+  plt.ylim([0,850])
+
+  plt.plot(output0, label="n = 0 (direct RL only)")
+  plt.plot(output5, label="n = 5")
+  plt.plot(output50, label="n = 50")
+
+  plt.legend()
+
   plt.show()

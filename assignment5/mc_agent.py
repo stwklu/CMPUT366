@@ -16,7 +16,7 @@ import random
 alpha = 0.1
 epsilon = 0.1
 gamma = 0.95
-n = 5
+n = 0
 ### PARAMETERS ###
 
 ### GLOBALS ###

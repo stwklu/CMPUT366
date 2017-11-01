@@ -32,4 +32,5 @@ if __name__ == "__main__":
         RL_cleanup()
 
     average_over_runs = np.mean(data, axis=1) # axis=1 does mean by row, ie per episode
-    np.save("output", average_over_runs)
+    print(average_over_runs)
+    np.save("output0", average_over_runs)
