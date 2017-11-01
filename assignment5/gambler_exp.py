@@ -23,6 +23,9 @@ if __name__ == "__main__":
 
     data = np.zeros((num_episodes, num_runs))
 
+    RL_agent_message(["n",5])
+    RL_agent_message(["alpha",0.1])
+
     for run in range(num_runs):
         print("run number: " + str(run))
         RL_init()

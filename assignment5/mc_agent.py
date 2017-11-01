@@ -13,10 +13,10 @@ import pickle
 import random
 
 ### PARAMETERS ###
-alpha = 0.1
+alpha = None
 epsilon = 0.1
 gamma = 0.95
-n = 0
+n = None
 ### PARAMETERS ###
 
 ### GLOBALS ###
@@ -115,15 +115,17 @@ def agent_cleanup():
     return
 
 def agent_message(in_message): # returns string, in_message: string
-    global Q
+    global n, alpha
     """
     Arguments: in_message: string
     returns: The value function as a string.
     This function is complete. You do not need to add code here.
     """
     # should not need to modify this function. Modify at your own risk
-    if (in_message == 'ValueFunction'):
-        return pickle.dumps(np.max(Q, axis=1), protocol=0)
+    if (in_message[0] == "n"):
+        n = in_message[1]
+    elif (in_message[0] == "alpha"):
+        alpha = in_message[1]
     else:
         return "I don't know what to return!!"
 
