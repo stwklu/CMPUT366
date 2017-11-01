@@ -57,7 +57,6 @@ def agent_start(state):
         action = argmax(Q[S[0]][S[1]])
     
     last_action = action
-    S = state
 
     return action
 
@@ -91,6 +90,9 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
         action = rand_in_range(4)
     else:
         action = argmax(Q[S[0]][S[1]])
+
+    S = S_
+    last_action = action
     
     return action
 
@@ -100,6 +102,8 @@ def agent_end(reward):
     Returns: Nothing
     """
     # do learning and update pi
+
+    Q[S[0]][S[1]][last_action] += alpha * (reward + gamma * max(Q[S_[0]][S_[1]]) - Q[S[0]][S[1]][last_action])
 
     return
 
