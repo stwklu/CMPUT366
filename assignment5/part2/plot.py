@@ -13,18 +13,16 @@ if __name__ == "__main__":
 
   data = []
 
-  fig = plt.figure()
-
   for i, alpha in enumerate(alpha_sweep):
-    ax = fig.add_subplot(3,3,i+1) # create separate graph for each alpha value
-    data = np.load("output"+str(alpha)+".npy")
-    plt.xlim([0,50])
-    plt.ylim([0,1000])
-    # plt.xlabel("Episodes")
-    # plt.ylabel("Steps per episode")
-    plt.plot(data, label="alpha = " + str(alpha))
-    plt.legend(prop={'size': 6})
-    # ax.imshow(()
+    load = np.load("output"+str(alpha)+".npy")
+    data.append(np.mean(load))
 
-  # plt.show()
+  print(data)  
+  
+  fig, ax = plt.subplots()
+  ax.set_xticklabels((" ", "0.03125", "0.0625", "0.125", "0.25", "0.5", "1.0"))
+  ax.set_xlabel("Alpha")
+  ax.set_ylabel("Average steps per episode over first 50 episodes")
+  bars = ax.bar(np.arange(6), data)
+
   plt.savefig("Dyna-Q.png")
