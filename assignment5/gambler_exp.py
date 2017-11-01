@@ -15,39 +15,21 @@ RLGlue("gambler_env", "mc_agent")
 import numpy as np
 import pickle
 
+
 if __name__ == "__main__":
-    num_episodes = 8000
-    max_steps = 10000
-
+    num_episodes = 50
+    max_steps = 2500
     num_runs = 10
-    key_episodes = [99, 999, 7999]
 
-    v_over_runs={}
-    # dict to hold data for key episodes
-    for episode in key_episodes:
-        v_over_runs[episode] = []
+    data = np.zeros((num_episodes, num_runs))
 
     for run in range(num_runs):
-      counter = 0
-      print "run number: ", run
-      RL_init()
-      print "\n"
-      for episode in range(num_episodes):
-        RL_episode(max_steps)
-        if (episode in key_episodes):
-          V = pickle.loads(RL_agent_message('ValueFunction'))
-          # V is (n,) np.array
-          v_over_runs[episode].append(V)
-          counter += 1
-      RL_cleanup()
-      
-    n = v_over_runs[key_episodes[0]][0].shape[0]
-    n_valueFunc = len(key_episodes)
-    average_v_over_runs = np.zeros((n_valueFunc,n))
-    for i,episode in enumerate(key_episodes):
-        # each item in dict is a list (one item per run), and each item is a value function 
-        data = np.matrix(v_over_runs[episode])
-        # therefore data is (num_runs x length of value fucntion)
-        average_v_over_runs[i] = np.mean(data, axis=0)
+        print("run number: " + str(run))
+        RL_init()
+        for episode in range(num_episodes):
+            RL_episode(max_steps)
+            data[episode][run] = RL_num_steps()
+        RL_cleanup()
 
-    np.save("ValueFunction", average_v_over_runs)
+    average_over_runs = np.mean(data, axis=1) # axis=1 does mean by row, ie per episode
+    np.save("output", average_over_runs)
