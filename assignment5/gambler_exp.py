@@ -21,19 +21,23 @@ if __name__ == "__main__":
     max_steps = 2500
     num_runs = 10
 
+    n_sweep = [0,5,50]
+
     data = np.zeros((num_episodes, num_runs))
 
-    RL_agent_message(["n",5])
-    RL_agent_message(["alpha",0.1])
+    for n in n_sweep:
+        RL_agent_message(["n",n])
+        RL_agent_message(["alpha",0.1])
 
-    for run in range(num_runs):
-        print("run number: " + str(run))
-        RL_init()
-        for episode in range(num_episodes):
-            RL_episode(max_steps)
-            data[episode][run] = RL_num_steps()
-        RL_cleanup()
+        for run in range(num_runs):
+            print("run number: " + str(run))
+            RL_init()
+            for episode in range(num_episodes):
+                RL_episode(max_steps)
+                data[episode][run] = RL_num_steps()
+            RL_cleanup()
 
-    average_over_runs = np.mean(data, axis=1) # axis=1 does mean by row, ie per episode
-    print(average_over_runs)
-    np.save("output0", average_over_runs)
+        average_over_runs = np.mean(data, axis=1) # axis=1 does mean by row, ie per episode
+        print(average_over_runs)
+        filename = "output" + str(n)
+        np.save(filename, average_over_runs)
