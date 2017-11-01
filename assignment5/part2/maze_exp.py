@@ -21,13 +21,13 @@ if __name__ == "__main__":
     max_steps = 2500
     num_runs = 10
 
-    n_sweep = [0,5,50]
+    alpha_sweep = [0.03125, 0.0625, 0.125, 0.25, 0.5, 1.0]
 
     data = np.zeros((num_episodes, num_runs))
 
-    for n in n_sweep:
-        RL_agent_message(["n",n])
-        RL_agent_message(["alpha",0.1])
+    for alpha in alpha_sweep:
+        RL_agent_message(["n",5])
+        RL_agent_message(["alpha",alpha])
 
         for run in range(num_runs):
             print("run number: " + str(run))
@@ -39,5 +39,5 @@ if __name__ == "__main__":
 
         average_over_runs = np.mean(data, axis=1) # axis=1 does mean by row, ie per episode
         print(average_over_runs)
-        filename = "output" + str(n)
+        filename = "output" + str(alpha)
         np.save(filename, average_over_runs)
