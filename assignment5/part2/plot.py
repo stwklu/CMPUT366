@@ -9,20 +9,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
-  output0 = np.load('output0.npy')
-  output5 = np.load('output5.npy')
-  output50 = np.load('output50.npy')
+  alpha_sweep = [0.03125, 0.0625, 0.125, 0.25, 0.5, 1.0]
 
-  plt.xlim([0,50])
-  plt.ylim([0,850])
-  plt.xlabel("Episodes")
-  plt.ylabel("Steps per episode")
+  data = []
 
-  plt.plot(output0, label="n = 0 (direct RL only)")
-  plt.plot(output5, label="n = 5")
-  plt.plot(output50, label="n = 50")
+  fig = plt.figure()
 
-  plt.legend()
+  for i, alpha in enumerate(alpha_sweep):
+    ax = fig.add_subplot(3,3,i+1) # create separate graph for each alpha value
+    data = np.load("output"+str(alpha)+".npy")
+    plt.xlim([0,50])
+    plt.ylim([0,1000])
+    # plt.xlabel("Episodes")
+    # plt.ylabel("Steps per episode")
+    plt.plot(data, label="alpha = " + str(alpha))
+    plt.legend(prop={'size': 6})
+    # ax.imshow(()
 
   # plt.show()
   plt.savefig("Dyna-Q.png")
