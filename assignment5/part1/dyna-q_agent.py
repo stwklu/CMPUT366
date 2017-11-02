@@ -72,17 +72,16 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     S_ = state
 
     if (S[0],S[1]) not in previous_states:
-        previous_states[(S[0],S[1])] = []
-    previous_states[(S[0],S[1])].append(last_action)
+        previous_states[(S[0],S[1])] = set()
+    previous_states[(S[0],S[1])].add(last_action)
 
     Q[S[0]][S[1]][last_action] += alpha * (reward + gamma * max(Q[S_[0]][S_[1]]) - Q[S[0]][S[1]][last_action])
     model[S[0]][S[1]][last_action] = (reward, S_[0], S_[1])
 
     for  i in range(n):
         S_planning = random.choice(previous_states.keys())
-        A_planning = random.choice(previous_states[S_planning])
-        # print(model[S_planning[0]][S_planning[1]][A_planning])
-        reward_planning, x_planning, y_planning = model[S_planning[0]][S_planning[1]][A_planning]
+        A_planning = random.sample(previous_states[S_planning], 1)
+        reward_planning, x_planning, y_planning = model[S_planning[0]][S_planning[1]][A_planning][0]
 
         Q[S_planning[0]][S_planning[1]][A_planning] += alpha * (reward_planning + gamma * max(Q[x_planning][y_planning]) -  Q[S_planning[0]][S_planning[1]][A_planning])
 
