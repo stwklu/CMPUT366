@@ -11,18 +11,10 @@ from utils import rand_norm, rand_in_range, rand_un
 import numpy as np
 import copy 
 
-maze = np.zeros((6,9))
 start = np.array([2,0])
 goal = np.array([0,8])
-walls = np.array([[1,2], [2,2], [3,2], [4,5], [0,7], [1,7], [2,7]])
-current_state = np.zeros(2)
-
-for wall in walls:
-    maze[wall[0]][wall[1]] = 1
-
-maze[goal[0]][goal[1]] = 2
-
-# print(maze)
+walls = [(1,2), (2,2), (3,2), (4,5), (0,7), (1,7), (2,7)]
+current_state = None
 
 
 def env_init():
@@ -51,27 +43,27 @@ def env_step(action):
         dictionary with keys {reward, state, isTerminal} containing the results
         of the action taken
     """
-    global current_state, maze, goal
+    global current_state, goal
 
     new_state = copy.deepcopy(current_state)
     
-    if action == 0: #east
+    if action == 0: #south
         new_state += [1,0]
-    elif action == 1: #south
+    elif action == 1: #east
         new_state += [0,1]
-    elif action == 2: #west
+    elif action == 2: #north
         new_state += [-1,0]
-    elif action == 3: #north
+    elif action == 3: #west
         new_state += [0,-1]
     else:
         raise Exception("Unknown action taken! Action: " + str(action))
 
     # Check within bounds
-    if new_state[0] < maze.shape[0] and new_state[0] >= 0:
-        if new_state[1] < maze.shape[1] and new_state[1] >= 0:
+    if new_state[0] < 6 and new_state[0] >= 0:
+        if new_state[1] < 9 and new_state[1] >= 0:
             # Check for wall
-            if maze[new_state[0]][new_state[1]] != 1:
-                current_state = new_state
+            if (new_state[0], new_state[1]) not in walls:
+                current_state = copy.deepcopy(new_state)
     
     if current_state[0] ==  goal[0] and current_state[1] == goal[1]:
         reward = 1

@@ -26,8 +26,8 @@ if __name__ == "__main__":
     data = np.zeros((num_episodes, num_runs))
 
     for n in n_sweep:
-        RL_agent_message(["n",n])
-        RL_agent_message(["alpha",0.1])
+        RL_agent_message(["n", n])
+        RL_agent_message(["alpha", 0.1])
 
         for run in range(num_runs):
             print("run number: " + str(run))
