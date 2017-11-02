@@ -14,7 +14,7 @@ if __name__ == "__main__":
   output50 = np.load('output50.npy')
 
   plt.xlim([0,50])
-  plt.ylim([0,850])
+  plt.ylim([0,825])
   plt.xlabel("Episodes")
   plt.ylabel("Steps per episode")
 
