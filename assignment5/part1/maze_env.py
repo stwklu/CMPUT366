@@ -68,7 +68,7 @@ def env_step(action):
 
     # Check within bounds
     if new_state[0] < maze.shape[0] and new_state[0] >= 0:
-        if new_state[1] < maze.shape[1] and new_state[1] >= 1:
+        if new_state[1] < maze.shape[1] and new_state[1] >= 0:
             # Check for wall
             if maze[new_state[0]][new_state[1]] != 1:
                 current_state = new_state
