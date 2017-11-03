@@ -19,7 +19,7 @@ import random
 if __name__ == "__main__":
     num_episodes = 50
     max_steps = 2500
-    num_runs = 50
+    num_runs = 100
 
     alpha_sweep = [0.03125, 0.0625, 0.125, 0.25, 0.5, 1.0]
 
@@ -30,7 +30,7 @@ if __name__ == "__main__":
         RL_agent_message(["alpha",alpha])
 
         for run in range(num_runs):
-            np.random.seed(5687461  + run)
+            np.random.seed(366609  + run)
             random.seed(123)
             # print("Seed = " + str(366 + run))
             print("run number: " + str(run))
