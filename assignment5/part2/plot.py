@@ -19,10 +19,12 @@ if __name__ == "__main__":
 
   print(data)  
   
-  fig, ax = plt.subplots()
-  ax.set_xticklabels((" ", "0.03125", "0.0625", "0.125", "0.25", "0.5", "1.0"))
-  ax.set_xlabel("Alpha")
-  ax.set_ylabel("Average steps per episode over first 50 episodes")
-  bars = ax.bar(np.arange(6), data)
+  # fig, ax = plt.subplots()
+  # ax.set_xticklabels((" ", "0.03125", "0.0625", "0.125", "0.25", "0.5", "1.0"))
+  # ax.set_xlabel("Alpha")
+  # ax.set_ylabel("Average steps per episode over first 50 episodes")
+  # bars = ax.bar(np.arange(6), data)
+  plt.ylim([25,30])
+  plt.plot(data)
 
   plt.savefig("Dyna-Q.png")
