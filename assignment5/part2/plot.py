@@ -31,5 +31,9 @@ if __name__ == "__main__":
   plt.plot(alpha_sweep,data)
   plt.savefig("Dyna-Q.labelled.png")
   plt.clf()
+
+  plt.xlabel("Alpha Values")
+  plt.ylabel("Average # Steps per Episode")
+
   plt.plot(data)
   plt.savefig("Dyna-Q.png")
