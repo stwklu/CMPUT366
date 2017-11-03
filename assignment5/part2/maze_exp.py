@@ -14,12 +14,12 @@ RLGlue("maze_env", "dyna-q_agent")
 
 import numpy as np
 import pickle
-
+import random
 
 if __name__ == "__main__":
     num_episodes = 50
     max_steps = 2500
-    num_runs = 10
+    num_runs = 50
 
     alpha_sweep = [0.03125, 0.0625, 0.125, 0.25, 0.5, 1.0]
 
@@ -30,15 +30,16 @@ if __name__ == "__main__":
         RL_agent_message(["alpha",alpha])
 
         for run in range(num_runs):
-            np.random.seed(366609 + run)
+            np.random.seed(5687461  + run)
+            random.seed(123)
             # print("Seed = " + str(366 + run))
             print("run number: " + str(run))
             RL_init()
             for episode in range(num_episodes):
                 RL_episode(max_steps)
                 data[episode][run] = RL_num_steps()
-                # if episode == 0:
-                #     print("First Episode Length = " + str(RL_num_steps()))
+                if episode == 0:
+                    print("First Episode Length = " + str(RL_num_steps()))
             RL_cleanup()
 
         average_over_runs = np.mean(data, axis=1) # axis=1 does mean by row, ie per episode

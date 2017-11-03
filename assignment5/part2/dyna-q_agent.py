@@ -14,7 +14,7 @@ import random
 
 ### PARAMETERS ###
 alpha = None
-epsilon = 0.1
+epsilon = 0.0003
 gamma = 0.95
 n = None
 ### PARAMETERS ###
