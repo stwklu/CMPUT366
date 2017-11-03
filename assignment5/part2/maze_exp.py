@@ -30,14 +30,19 @@ if __name__ == "__main__":
         RL_agent_message(["alpha",alpha])
 
         for run in range(num_runs):
+            np.random.seed(366609 + run)
+            # print("Seed = " + str(366 + run))
             print("run number: " + str(run))
             RL_init()
             for episode in range(num_episodes):
                 RL_episode(max_steps)
                 data[episode][run] = RL_num_steps()
+                # if episode == 0:
+                #     print("First Episode Length = " + str(RL_num_steps()))
             RL_cleanup()
 
         average_over_runs = np.mean(data, axis=1) # axis=1 does mean by row, ie per episode
         print(average_over_runs)
+        average_over_runs[0] = 0 # do not plot first episode
         filename = "output" + str(alpha)
         np.save(filename, average_over_runs)
