@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
 
-    agents = ['tabular']
+    agents = ['tabular', 'aggregation']
     runs = 10
     num_episodes = 5000
     max_steps = 10000
@@ -43,7 +43,7 @@ if __name__ == "__main__":
             RL_init()
             run_RMSE_array = np.zeros(num_episodes)
             for episode in range(num_episodes):
-                if episode % 100 == 0:
+                if episode % (num_episodes/10) == 0:
                     print(episode)
 
                 RL_episode(max_steps)
@@ -59,6 +59,7 @@ if __name__ == "__main__":
     
     plt.xlabel("Episodes")
     plt.ylabel("RMSVE")
+    plt.legend()
     plt.savefig("random_walk.png")
     plt.show()
 
