@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
 
-    agents = ['tabular', 'aggregation']
+    agents = ['tile_coding', 'tabular', 'aggregation'] # , 
     runs = 10
     num_episodes = 5000
     max_steps = 10000
@@ -46,7 +46,8 @@ if __name__ == "__main__":
             run_RMSE_array = np.zeros(num_episodes)
             for episode in range(num_episodes):
                 if episode % (num_episodes/10) == 0:
-                    print(episode)
+                    percent = float(episode)/num_episodes*100
+                    print(str(episode) + "/" + str(num_episodes) + "   " + str(percent) + "% of run")
 
                 RL_episode(max_steps)
 
