@@ -24,6 +24,8 @@ if __name__ == "__main__":
     num_episodes = 5000
     max_steps = 10000
 
+    data = np.zeros((runs,num_episodes))
+
     try:
         print("Loading TrueValueFunction.npy")
         true_value = np.load("TrueValueFunction.npy")
@@ -46,7 +48,9 @@ if __name__ == "__main__":
             episode_values = RL_agent_message("RMSE")
             RMSE = np.sqrt(np.mean((true_value - episode_values)**2))
             run_RMSE_array[episode] = RMSE
-        plt.plot(run_RMSE_array)
-        plt.show()
-
+        data[run] = run_RMSE_array
         RL_cleanup()
+
+    plt.plot(np.mean(data, axis=0))
+    plt.show()
+
