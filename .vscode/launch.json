@@ -6,12 +6,12 @@
   "configurations": [
 
     {
-      "name": "assignment5",
+      "name": "a6tabular",
       "type": "python",
       "request": "launch",
       "stopOnEntry": false,
       "pythonPath": "${config:python.pythonPath}",
-      "program": "${workspaceRoot}/assignment5/part1/maze_exp.py",
+      "program": "${workspaceRoot}/assignment6/part2/gambler_exp.py",
       "cwd": "${workspaceRoot}",
       "env": {},
       "envFile": "${workspaceRoot}/.env",
