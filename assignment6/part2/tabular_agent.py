@@ -121,4 +121,5 @@ def get_feature_vector(state):
 
 def get_value(state, weights):
     features = get_feature_vector(state)
-    return sum(np.multiply(weights,features))
+    # return sum(np.multiply(weights,features))
+    return np.dot(weights, features)

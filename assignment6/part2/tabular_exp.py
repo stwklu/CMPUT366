@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 if __name__ == "__main__":
 
     runs = 10
-    num_episodes = 2000
+    num_episodes = 5000
     max_steps = 10000
 
     try:
