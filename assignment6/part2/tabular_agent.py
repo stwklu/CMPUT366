@@ -28,7 +28,7 @@ def agent_init():
     #initialize the policy array in a smart way
     global weights, current_state, last_state
 
-    weights = np.zeros(1000)
+    weights = np.zeros(1001)
     current_state = None
     last_state = None
 
@@ -83,7 +83,6 @@ def agent_end(reward):
     weights = np.add(weights, TD_error * get_feature_vector(last_state))
     # weights += (TD_error * get_feature_vector(last_state))
 
-
     return
 
 def agent_cleanup():
@@ -91,22 +90,21 @@ def agent_cleanup():
     This function is not used
     """
     # clean up
-    print(weights)
-    plt.plot(weights)
-    plt.show()
 
     return
 
 def agent_message(in_message): # returns string, in_message: string
-    global Q
     """
     Arguments: in_message: string
     returns: The value function as a string.
     This function is complete. You do not need to add code here.
     """
     # should not need to modify this function. Modify at your own risk
-    if (in_message == 'ValueFunction'):
-        return pickle.dumps(np.max(Q, axis=1), protocol=0)
+    if (in_message == 'RMSE'):
+        estimated_values = np.zeros(1001)
+        for state in range(1001):
+            estimated_values[state] = get_value(state, weights)
+        return estimated_values
     else:
         return "I don't know what to return!!"
 
@@ -117,8 +115,8 @@ def get_random_action():
             return action
 
 def get_feature_vector(state):
-    features = np.zeros(1000)
-    features[state-1] = 1
+    features = np.zeros(1001)
+    features[state] = 1
     return features
 
 def get_value(state, weights):
