@@ -23,6 +23,7 @@ if __name__ == "__main__":
     runs = 10
     num_episodes = 5000
     max_steps = 10000
+    seed = 366609
 
     data = np.zeros((len(agents), runs, num_episodes))
 
@@ -39,6 +40,7 @@ if __name__ == "__main__":
         print("Starting agent: " + agent)
         RLGlue("random_walk_env", agent + "_agent")
         for run in range(runs):
+            np.random.seed(seed+run)
             print("Run: #" + str(run))
             RL_init()
             run_RMSE_array = np.zeros(num_episodes)
@@ -54,6 +56,7 @@ if __name__ == "__main__":
 
             data[agent_number-1][run] = run_RMSE_array
             RL_cleanup()
+            # print(np.random.randint(100,1000)) # Check that randomness same across episodes
         
         plt.plot(np.mean(data[agent_number-1], axis=0), label=agent)
     
