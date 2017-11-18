@@ -10,7 +10,6 @@
 """
 
 from rl_glue import *  # Required for RL-Glue
-RLGlue("gambler_env", "tabular_agent")
 
 import numpy as np
 import pickle
@@ -20,11 +19,12 @@ import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
 
+    agents = ['tabular']
     runs = 10
     num_episodes = 5000
     max_steps = 10000
 
-    data = np.zeros((runs,num_episodes))
+    data = np.zeros((len(agents), runs, num_episodes))
 
     try:
         print("Loading TrueValueFunction.npy")
@@ -35,22 +35,30 @@ if __name__ == "__main__":
         true_value = rndmwalk_policy_evaluation.compute_value_function()
         np.save("TrueValueFunction", true_value)
 
-    for run in range(runs):
-        print("Run: #" + str(run))
-        RL_init()
-        run_RMSE_array = np.zeros(num_episodes)
-        for episode in range(num_episodes):
-            if episode % 100 == 0:
-                print(episode)
+    for agent_number, agent in enumerate(agents):
+        print("Starting agent: " + agent)
+        RLGlue("random_walk_env", agent + "_agent")
+        for run in range(runs):
+            print("Run: #" + str(run))
+            RL_init()
+            run_RMSE_array = np.zeros(num_episodes)
+            for episode in range(num_episodes):
+                if episode % 100 == 0:
+                    print(episode)
 
-            RL_episode(max_steps)
+                RL_episode(max_steps)
 
-            episode_values = RL_agent_message("RMSE")
-            RMSE = np.sqrt(np.mean((true_value - episode_values)**2))
-            run_RMSE_array[episode] = RMSE
-        data[run] = run_RMSE_array
-        RL_cleanup()
+                episode_values = RL_agent_message("RMSE")
+                RMSE = np.sqrt(np.mean((true_value - episode_values)**2))
+                run_RMSE_array[episode] = RMSE
 
-    plt.plot(np.mean(data, axis=0))
+            data[agent_number-1][run] = run_RMSE_array
+            RL_cleanup()
+        
+        plt.plot(np.mean(data[agent_number-1], axis=0), label=agent)
+    
+    plt.xlabel("Episodes")
+    plt.ylabel("RMSVE")
+    plt.savefig("random_walk.png")
     plt.show()
 
