@@ -11,7 +11,7 @@
       "request": "launch",
       "stopOnEntry": false,
       "pythonPath": "${config:python.pythonPath}",
-      "program": "${workspaceRoot}/assignment6/part2/gambler_exp.py",
+      "program": "${workspaceRoot}/assignment6/part2/random_walk_exp.py",
       "cwd": "${workspaceRoot}",
       "env": {},
       "envFile": "${workspaceRoot}/.env",
