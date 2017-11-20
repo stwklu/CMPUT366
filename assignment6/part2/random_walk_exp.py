@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
 
-    agents = ['tile_coding', 'tabular', 'aggregation'] # , 
+    agents = ['tabular', 'tile_coding', 'aggregation'] # 
     runs = 10
     num_episodes = 5000
     max_steps = 10000
