@@ -12,13 +12,18 @@ import numpy as np
 import pickle
 
 import matplotlib.pyplot as plt
+from tiles3 import *
 
 current_state = None
 last_state = None
 weights = None
 
-alpha = 0.5
+alpha = 0.01/50
 gamma = 1.0
+
+tilings = 50
+iht = IHT(1001)
+features = {}
 
 def agent_init():
     """
@@ -115,9 +120,15 @@ def get_random_action():
             return action
 
 def get_feature_vector(state):
-    features = np.zeros(1001)
-    features[state] = 1
-    return features
+    if state in features:
+        return features[state]
+    else:
+        temp = np.zeros(1001)
+        mytiles = tiles(iht, tilings, [float(state)/200])
+        for tile in mytiles:
+            temp[tile] = 1
+        features[state] = temp
+        return features[state]
 
 def get_value(state, weights):
     features = get_feature_vector(state)
