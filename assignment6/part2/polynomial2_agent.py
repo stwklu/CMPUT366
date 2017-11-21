@@ -17,7 +17,7 @@ current_state = None
 last_state = None
 weights = None
 
-alpha = 0.001
+alpha = 0.003
 gamma = 1.0
 
 features = {}

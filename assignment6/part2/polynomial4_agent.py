@@ -30,7 +30,7 @@ def agent_init():
     #initialize the policy array in a smart way
     global weights, current_state, last_state
 
-    weights = np.zeros(4, dtype='float64')
+    weights = np.zeros(5, dtype='float64')
     current_state = None
     last_state = None
 
@@ -120,13 +120,13 @@ def get_feature_vector(state):
     if state in features:
         return features[state]
     else:
-        temp = np.zeros(4)
+        temp = np.zeros(5)
         state_float = float(state)/1000
         temp[0] = 1
         temp[1] = state_float
         temp[2] = state_float**2
         temp[3] = state_float**3
-
+        temp[4] = state_float**4
 
         features[state] = temp
 

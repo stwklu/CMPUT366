@@ -19,8 +19,12 @@ import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
 
-    agents = ['tabular', 'tile_coding', 'aggregation'] # 
-    runs = 10
+    # agents = ['tabular', 'tile_coding', 'aggregation'] # 
+    agents = [  'polynomial', 
+                'polynomial2', 
+                'polynomial3', 
+                'polynomial4']
+    runs = 1
     num_episodes = 5000
     max_steps = 10000
     seed = 366609
