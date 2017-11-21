@@ -117,7 +117,7 @@ def get_random_action():
 
 def get_feature_vector(state):
     features = np.zeros(11)
-    activated = int(math.ceil(state/100))
+    activated = int(math.ceil(float(state)/100))
     features[activated] = 1
     return features
 
