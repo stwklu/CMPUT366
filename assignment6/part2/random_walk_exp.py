@@ -48,11 +48,12 @@ if __name__ == "__main__":
                 if episode % (num_episodes/10) == 0:
                     percent = float(episode)/num_episodes*100
                     print(str(episode) + "/" + str(num_episodes) + "   " + str(percent) + "% of run")
+                    print(run_RMSE_array[episode-1])
 
                 RL_episode(max_steps)
 
                 episode_values = RL_agent_message("RMSE")
-                RMSE = np.sqrt(np.mean((true_value - episode_values)**2))
+                RMSE = np.sqrt(np.mean((true_value[1:] - episode_values[1:])**2))
                 run_RMSE_array[episode] = RMSE
 
             data[agent_number-1][run] = run_RMSE_array
