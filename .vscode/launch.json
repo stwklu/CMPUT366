@@ -12,7 +12,7 @@
       "stopOnEntry": false,
       "pythonPath": "${config:python.pythonPath}",
       "program": "${workspaceRoot}/assignment6/part2/random_walk_exp.py",
-      "cwd": "${workspaceRoot}",
+      "cwd": "${workspaceRoot}/assignment6/part2/",
       "env": {},
       "envFile": "${workspaceRoot}/.env",
       "debugOptions": [
