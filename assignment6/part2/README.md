@@ -1,17 +1,25 @@
 # Main Readme
 ## How to Run
 `python random_walk_exp.py`
-## Requested Plot (Part 3)
-Look at `random_walk.png` for the requested graph that makes up Part 3 of the assignment. RMSE is calculated in `random_walk_exp.py`.
-## State Aggregation Info and Explanations 
+## Random Walk Environment (Part 1)
+Part 1 is accomplished in `random_walk_env.py`
+## Three Agents (Part 2)
+The three requested agents can be found in:
+* `tabular_agent.py`
+* `tile_coding_agent.py`
+* `aggregation_agent.py`
+### State Aggregation Info and Explanations 
 While the assignment suggests using alpha = 0.1, I found the resulting error graph to be quite erratic, bumpy, high variability. Further, the result was an aggressive drop between states 0-50. When comparing this to Figure 9.10 in the text, I experimented with lowering alpha. With alpha = 0.01, the resulting graph is much smoother and more closely resembles that in the textbook. The sacrifice is the quick reduction in RMSE. A quick 5 run, 3000 episode averaged graph is available as `random_walk01.png`.
 
 Further, I implemented state aggregation both in a "manual" sense (see `old_aggregation_agent.py`) by mapping state to one of ten indices, similar to the tabular case. I found this to be very noisy when graphing. Instead, the `aggregation_agent.py` uses `tiles3.py` with one tiling layer and achieves superior results. The main graph `random_walk.png` uses this method. 
+
+## Requested Plot (Part 3)
+Look at `random_walk.png` for the requested graph that covers Part 3 and the bonus plotting requirements. For the sake of completeness, the three agent only graph (as requested in Part 3) without the bonus can be found at `random_walk_no_bonus.png`. RMSE is calculated in `random_walk_exp.py`. All graphs mentioned here (ie, the required graphs) are 5000 episodes long, and averaged over 10 runs. Other non-required graphs usually note reduced run numbers to save on compute time as they are simply assisting in a demo.
 ## Miscellaneous
-* The random seed is controlled as requested. See `random_walk_exp.py`. The same run #1 in any agent will have the same seed set. 
+* The random seed is controlled as requested. See `random_walk_exp.py`. The same run number in any agent will have the same seed set at its start.
 * I use `rndmwalk_policy_evaluation.py` to get my true values for calculating RMSE. These are saved to `TrueValueFunction.npy`. If that file is deleted, the experiment will regenerate the true values, so long as the `rndmwalk_policy_evaluation.py` file is available. All are included in my upload. 
 
-# Polynomials
+# Polynomials (Bonus)
 ## Deciding on level of polynomial/exponent
 
 All agents used alpha = 0.001 for now. The agent name refers to the maximum exponent computed. For example, `polynomial3_agent` uses the feature vector (s^0, s^1, s^2, s^3) where s is the state input divided by 1000. The source code to rerun these experiments is included. Modify the agents around line 22 to be ran in `random_walk_exp.py` and then run `python random_walk_exp.py`. The resulting graph (`polynomial.png`) reveals that only considering (s^0, s^1) performs noticeable worse than the higher dimension polynomial implementations. As the polynomial order increases (EG `polynomial4`), RMSE drops faster initially (see around 1000 episodes) but by 5000 episodes, `polynomial2` has the lowest error and the higher the polynomial, the more error. ie, higher polynomials learn quicker initially but underperform given extra time. Therefore, I will be selecting `polynomial2_agent` to be the basis of my alpha tuning in the next experiment.
