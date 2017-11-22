@@ -3,7 +3,7 @@
 `python random_walk_exp.py`
 
 ## State Aggregation
-While the assignment suggests using alpha = 0.1, I found the resulting error graph to be quite erratic, bumpy, high variability. Further, the result was an aggressive drop between states 0-50. When comparing this to Figure 9.10 in the text, I experimented with lowering alpha. With alpha = 0.01, the resulting graph is much smoother and more closely resembles that in the textbook. The sacrifice is the quick reduction in RMSE. A quick 5 run averaged graph is available as `random_walk01.png`.
+While the assignment suggests using alpha = 0.1, I found the resulting error graph to be quite erratic, bumpy, high variability. Further, the result was an aggressive drop between states 0-50. When comparing this to Figure 9.10 in the text, I experimented with lowering alpha. With alpha = 0.01, the resulting graph is much smoother and more closely resembles that in the textbook. The sacrifice is the quick reduction in RMSE. A quick 5 run, 3000 episode averaged graph is available as `random_walk01.png`.
 
 Further, I implemented state aggregation both in a "manual" sense (see `old_aggregation_agent.py`) by mapping state to one of ten indices, similar to the tabular case. I found this to be very noisy when graphing. Instead, the `aggregation_agent.py` uses `tiles3.py` with one tiling layer and achieves superior results. The main graph `random_walk.png` uses this method. 
 # Polynomials

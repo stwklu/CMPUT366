@@ -35,8 +35,8 @@ if __name__ == "__main__":
     # agents = [  'polynomial2003', # for alpha tuning experiment v2
     #             'polynomial2001', 
     #             'polynomial20003']
-    runs = 5
-    num_episodes = 3000
+    runs = 10
+    num_episodes = 5000
     max_steps = 10000
     seed = 366609
 
