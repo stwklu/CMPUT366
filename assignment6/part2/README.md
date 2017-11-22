@@ -1,3 +1,11 @@
+# Main Readme
+## How to Run
+`python random_walk_exp.py`
+
+## State Aggregation
+While the assignment suggests using alpha = 0.1, I found the resulting error graph to be quite erratic, bumpy, high variability. Further, the result was an aggressive drop between states 0-50. When comparing this to Figure 9.10 in the text, I experimented with lowering alpha. With alpha = 0.01, the resulting graph is much smoother and more closely resembles that in the textbook. The sacrifice is the quick reduction in RMSE. A quick 5 run averaged graph is available as `random_walk01.png`.
+
+Further, I implemented state aggregation both in a "manual" sense (see `old_aggregation_agent.py`) by mapping state to one of ten indices, similar to the tabular case. I found this to be very noisy when graphing. Instead, the `aggregation_agent.py` uses `tiles3.py` with one tiling layer and achieves superior results. The main graph `random_walk.png` uses this method. 
 # Polynomials
 ## Deciding on level of polynomial/exponent
 
@@ -9,4 +17,4 @@ Starting off of `polynomial2`, I will test a variety of alpha levels and graph r
 Next I tried just above and below alpha = 0.01 with 0.03 and 0.003 respectively. Again, all code and files are provided. Modify agents in `random_walk_exp.py` to repeat. The resulting graph is `polynomialalphav2.png`. Both 0.003 and 0.01 resulted in similar error beyond 3000 episodes. 0.03 was still quite noisy. Figure 9.5 demonstrates a low noise graph, and therefore I have opted to keep alpha = 0.003, though 0.01 is a close contender.
 
 ## Summary
- From the above testing, I found that using a polynomial feature vector of (state^0, state^1, state^2) and alpha of 0.003 to be the optimal selection for this problem. This agent alone will be graphed with the three required agents on one graph.
+ From the above testing, I found that using a polynomial feature vector of (state^0, state^1, state^2) and alpha of 0.003 to be the optimal selection for this problem. This agent (`polynomial20003`) alone will be graphed with the three required agents on one graph.

@@ -19,19 +19,24 @@ import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
 
-    # agents = ['tabular', 'tile_coding', 'aggregation'] # 
+    # Uncomment (or modify!) agents list to match the agents you want to run!
+
+    agents = [  'tabular', # main agents asked for in the assignment
+                'tile_coding', 
+                'aggregation', 
+                'polynomial20003'] 
     # agents = [  'polynomial', # for polynomial level experiment
     #             'polynomial2', 
     #             'polynomial3', 
     #             'polynomial4']
-    # agents = [  'polynomial201', # for alpha tuning experiment
+    # agents = [  'polynomial201', # for alpha tuning experiment v1
     #             'polynomial2001', 
     #             'polynomial20001']
-    agents = [  'polynomial2003', # for alpha tuning experiment
-                'polynomial2001', 
-                'polynomial20003']
-    runs = 3
-    num_episodes = 5000
+    # agents = [  'polynomial2003', # for alpha tuning experiment v2
+    #             'polynomial2001', 
+    #             'polynomial20003']
+    runs = 5
+    num_episodes = 3000
     max_steps = 10000
     seed = 366609
 
