@@ -20,11 +20,11 @@ import matplotlib.pyplot as plt
 if __name__ == "__main__":
 
     # agents = ['tabular', 'tile_coding', 'aggregation'] # 
-    agents = [  'polynomial', 
+    agents = [  'polynomial',
                 'polynomial2', 
                 'polynomial3', 
                 'polynomial4']
-    runs = 1
+    runs = 3
     num_episodes = 5000
     max_steps = 10000
     seed = 366609
@@ -67,7 +67,7 @@ if __name__ == "__main__":
         plt.plot(np.mean(data[agent_number-1], axis=0), label=agent)
     
     plt.xlabel("Episodes")
-    plt.ylabel("RMSVE")
+    plt.ylabel("RMSE")
     plt.legend()
     plt.savefig("random_walk.png")
     plt.show()
