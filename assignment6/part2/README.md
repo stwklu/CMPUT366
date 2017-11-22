@@ -1,11 +1,16 @@
 # Main Readme
 ## How to Run
 `python random_walk_exp.py`
-
-## State Aggregation
+## Requested Plot (Part 3)
+Look at `random_walk.png` for the requested graph that makes up Part 3 of the assignment. RMSE is calculated in `random_walk_exp.py`.
+## State Aggregation Info and Explanations 
 While the assignment suggests using alpha = 0.1, I found the resulting error graph to be quite erratic, bumpy, high variability. Further, the result was an aggressive drop between states 0-50. When comparing this to Figure 9.10 in the text, I experimented with lowering alpha. With alpha = 0.01, the resulting graph is much smoother and more closely resembles that in the textbook. The sacrifice is the quick reduction in RMSE. A quick 5 run, 3000 episode averaged graph is available as `random_walk01.png`.
 
 Further, I implemented state aggregation both in a "manual" sense (see `old_aggregation_agent.py`) by mapping state to one of ten indices, similar to the tabular case. I found this to be very noisy when graphing. Instead, the `aggregation_agent.py` uses `tiles3.py` with one tiling layer and achieves superior results. The main graph `random_walk.png` uses this method. 
+## Miscellaneous
+* The random seed is controlled as requested. See `random_walk_exp.py`. The same run #1 in any agent will have the same seed set. 
+* I use `rndmwalk_policy_evaluation.py` to get my true values for calculating RMSE. These are saved to `TrueValueFunction.npy`. If that file is deleted, the experiment will regenerate the true values, so long as the `rndmwalk_policy_evaluation.py` file is available. All are included in my upload. 
+
 # Polynomials
 ## Deciding on level of polynomial/exponent
 
@@ -16,5 +21,7 @@ Starting off of `polynomial2`, I will test a variety of alpha levels and graph r
 
 Next I tried just above and below alpha = 0.01 with 0.03 and 0.003 respectively. Again, all code and files are provided. Modify agents in `random_walk_exp.py` to repeat. The resulting graph is `polynomialalphav2.png`. Both 0.003 and 0.01 resulted in similar error beyond 3000 episodes. 0.03 was still quite noisy. Figure 9.5 demonstrates a low noise graph, and therefore I have opted to keep alpha = 0.003, though 0.01 is a close contender.
 
-## Summary
+## Summary and Discussion
  From the above testing, I found that using a polynomial feature vector of (state^0, state^1, state^2) and alpha of 0.003 to be the optimal selection for this problem. This agent (`polynomial20003`) alone will be graphed with the three required agents on one graph.
+
+ Viewing the final resulting graph `random_walk.png`, the polynomial agent does have lower RMSE than the aggregation agent at 5000 episodes. However, for the first half of 5000 episodes, polynomial is the slowest in reducing RMSE. Unfortunately, with only 5000 episodes, we cannot see how polynomial will trend, as polynomial is not leveled off as much as the other three agents. In general, I do not believe polynomial to be a great agent choice for this problem. We are dealing with a a single input to define our space. A problem that deals with two or more inputs to state (say, length and width, or age and weight), these inputs can have meaningful combinations. EG Area, BMI, etc. Having state^2, or state^3 is simply making features for the sake of features. Still, perhaps the machine will surprise us and find good features that I do not currently see. That being said, we did not see much difference for state^2 and higher polynomial combinations. Therefore, those higher order implementations do not improve, and can also hinder, the performance. This is supported in `polynomial.png`. 
