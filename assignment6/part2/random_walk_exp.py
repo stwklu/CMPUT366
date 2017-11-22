@@ -20,10 +20,16 @@ import matplotlib.pyplot as plt
 if __name__ == "__main__":
 
     # agents = ['tabular', 'tile_coding', 'aggregation'] # 
-    agents = [  'polynomial',
-                'polynomial2', 
-                'polynomial3', 
-                'polynomial4']
+    # agents = [  'polynomial', # for polynomial level experiment
+    #             'polynomial2', 
+    #             'polynomial3', 
+    #             'polynomial4']
+    # agents = [  'polynomial201', # for alpha tuning experiment
+    #             'polynomial2001', 
+    #             'polynomial20001']
+    agents = [  'polynomial2003', # for alpha tuning experiment
+                'polynomial2001', 
+                'polynomial20003']
     runs = 3
     num_episodes = 5000
     max_steps = 10000
