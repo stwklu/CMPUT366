@@ -18,11 +18,14 @@ current_state = None
 last_state = None
 weights = None
 
-alpha = 0.01/50
-gamma = 1.0
+alpha = 0.1/tilings
+gamma = 1
+lambda = 0.9
+epsilon = 0.0
 
-tilings = 50
-iht = IHT(1001)
+tilings = 8 
+shape = [8,8]
+iht = IHT(4096)
 features = {}
 
 def agent_init():
