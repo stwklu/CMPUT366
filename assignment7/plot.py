@@ -13,4 +13,5 @@ if os.path.exists(filename):
     plt.xlabel('Episode')
     plt.ylabel('Steps per episode \naveraged over {} runs'.format(data.shape[0]))
     plt.legend()
-    plt.show()
+    plt.savefig("sarsa.png")
+    # plt.show()
