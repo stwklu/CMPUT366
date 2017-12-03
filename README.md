@@ -23,7 +23,7 @@ control their environment, topics will include:
 ## [366 Course Public Folder](https://drive.google.com/open?id=0B3w765rOKuKAMG9lbmRacFdsLWM)
 The link above is a Google Drive folder belonging to Richard Sutton and Adam White. Access may disappear at any time. Contains the following course materials of interest:
 
-  * Assignments
+  * Assignments (also available in `assignments` directory)
   * Exams
   * Lecture Videos
   * Slides
