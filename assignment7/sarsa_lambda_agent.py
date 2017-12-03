@@ -16,11 +16,12 @@ from tiles3 import *
 
 current_state = None
 last_state = None
-weights = None
+weights = None 
+values = None
 
 alpha = 0.1/tilings
 gamma = 1
-lambda = 0.9
+lambdah = 0.9
 epsilon = 0.0
 
 tilings = 8 
@@ -34,9 +35,11 @@ def agent_init():
     Returns: nothing
     """
     #initialize the policy array in a smart way
-    global weights, current_state, last_state
+    global weights, values, current_state, last_state
 
-    weights = np.zeros(1001)
+    weights = np.zeros([shape[0], shape[1], 3]) # size of tiling shape and depth of # actions
+    values = np.random.uniform(-0.001, 0.0, [shape[0] * shape[1] * tilings * 3]) # flatten values so as to have a vector for multiplication,etc later
+
     current_state = None
     last_state = None
 
