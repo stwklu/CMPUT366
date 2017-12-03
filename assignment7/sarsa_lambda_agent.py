@@ -19,13 +19,13 @@ last_state = None
 weights = None 
 values = None
 
+tilings = 8 
 alpha = 0.1/tilings
 gamma = 1
 lambdah = 0.9
 epsilon = 0.0
 
-tilings = 8 
-shape = [8,8]
+shape = [8,8] # where [0] is position, [1]  is velocity
 iht = IHT(4096)
 features = {}
 
@@ -37,8 +37,8 @@ def agent_init():
     #initialize the policy array in a smart way
     global weights, values, current_state, last_state
 
-    weights = np.zeros([shape[0], shape[1], 3]) # size of tiling shape and depth of # actions
-    values = np.random.uniform(-0.001, 0.0, [shape[0] * shape[1] * tilings * 3]) # flatten values so as to have a vector for multiplication,etc later
+    values = np.zeros([shape[0], shape[1], 3]) # size of tiling shape and depth of # actions
+    weights = np.random.uniform(-0.001, 0.0, [shape[0] * shape[1] * tilings * 3]) # flatten values so as to have a vector for multiplication,etc later
 
     current_state = None
     last_state = None
@@ -52,11 +52,14 @@ def agent_start(state):
     # pick the first action, don't forget about exploring starts 
     global current_state, last_state
 
-    current_state = 500
-    last_state = current_state
+    # determine which tile index for position and velocity
+    position = shape[0] * (state[0] + 1.2) / (1.2 + 0.5) # add lower bound 1.2 to get positives only, divide by range
+    velocity = shape[1] * (state[1] + 0.7) / (0.7 + 0.7)
+    print(position, velocity)
 
-    action = get_random_action()
+    action = get_epsilon_action(int(position), int(velocity))
 
+    print(action)
     return action
 
 
@@ -119,11 +122,13 @@ def agent_message(in_message): # returns string, in_message: string
     else:
         return "I don't know what to return!!"
 
-def get_random_action():
-    while True:
-        action = np.random.randint(-100,101)
-        if action != 0:
-            return action
+def get_epsilon_action(position, velocity):
+    if np.random.uniform() < epsilon: # explore
+        action = np.random.randint(3)
+        print("Yeaaaaaaaaaaaaaaaaaaa this probably shouldn't have happened, plz fix")
+    else: # exploit
+        action = argmax(values[position][velocity])
+    return action
 
 def get_feature_vector(state):
     if state in features:
@@ -139,3 +144,8 @@ def get_feature_vector(state):
 def get_value(state, weights):
     features = get_feature_vector(state)
     return np.dot(weights, features)
+
+def argmax(a):
+    # Robert Kern
+    # https://mail.scipy.org/pipermail/numpy-discussion/2015-March/072459.html
+    return np.random.choice(np.where(a == a.max())[0])
