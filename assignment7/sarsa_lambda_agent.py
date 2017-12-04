@@ -16,6 +16,8 @@ from tiles3 import *
 
 current_state = None
 last_state = None
+last_action = None
+last_tile = None
 weights = None 
 values = None
 
@@ -28,6 +30,7 @@ epsilon = 0.0
 shape = [8,8] # where [0] is position, [1]  is velocity
 iht = IHT(4096)
 features = {}
+Z = None
 
 def agent_init():
     """
@@ -50,16 +53,21 @@ def agent_start(state):
     Returns: action: integer
     """
     # pick the first action, don't forget about exploring starts 
-    global current_state, last_state
+    global current_state, last_state, last_action, last_tile, Z
 
     # determine which tile index for position and velocity
     position = shape[0] * (state[0] + 1.2) / (1.2 + 0.5) # add lower bound 1.2 to get positives only, divide by range
     velocity = shape[1] * (state[1] + 0.7) / (0.7 + 0.7)
-    print(position, velocity)
+    tile = [int(position), int(velocity)]
 
-    action = get_epsilon_action(int(position), int(velocity))
+    action = get_epsilon_action(tile[0], tile[1])
 
-    print(action)
+    last_state = state
+    last_action = action
+    last_tile = tile
+
+    Z = np.zeros(len(weights))
+
     return action
 
 
@@ -69,18 +77,34 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     Returns: action: integer
     """
     # select an action, based on Q
-    global current_state, last_state, weights
+    global current_state, last_state, last_action, last_tile, weights, Z, values
 
-    current_state = state
-    action = get_random_action()
-    features = get_feature_vector(current_state)
 
-    TD_error  = alpha * (reward + gamma * get_value(current_state, weights) - get_value(last_state, weights))
+    position = shape[0] * (last_state[0] + 1.2) / (1.2 + 0.5) # add lower bound 1.2 to get positives only, divide by range
+    velocity = shape[1] * (last_state[1] + 0.7) / (0.7 + 0.7)
+    tile = [int(position), int(velocity)]
 
-    weights = np.add(weights, TD_error * get_feature_vector(last_state))
-    # weights += (TD_error * get_feature_vector(last_state))
+    TD_error = reward
+    
+    for i in tiles(iht, tilings, last_tile, [last_action]):
+        TD_error -= weights[i]
+        Z[i] += 1
 
-    last_state = current_state
+    action = get_epsilon_action(int(position), int(velocity))
+    
+    activated = np.zeros(len(weights))
+
+    for i in tiles(iht, tilings, tile, [action]):
+        activated[i] = 1
+        TD_error += gamma * weights[i]
+
+    values[tile[0]][tile[1]][action] = np.dot(weights, activated)
+    weights += alpha * TD_error * Z
+    Z = gamma * lambdah * Z
+
+    last_state = state
+    last_action = action
+    last_tile = tile
 
     return action
 
@@ -92,10 +116,15 @@ def agent_end(reward):
     # do learning and update pi
     global weights, last_state
 
-    TD_error  = alpha * (reward - get_value(last_state, weights))
+    # no need to get new tile from pos and vel
 
-    weights = np.add(weights, TD_error * get_feature_vector(last_state))
-    # weights += (TD_error * get_feature_vector(last_state))
+    TD_error = reward
+
+    for i in tiles(iht, tilings, last_tile, [last_action]):
+        TD_error -= weights[i]
+        Z[i] += 1
+
+    weights += alpha * TD_error * Z
 
     return
 
@@ -130,20 +159,20 @@ def get_epsilon_action(position, velocity):
         action = argmax(values[position][velocity])
     return action
 
-def get_feature_vector(state):
-    if state in features:
-        return features[state]
-    else:
-        temp = np.zeros(1001)
-        mytiles = tiles(iht, tilings, [float(state)/200])
-        for tile in mytiles:
-            temp[tile] = 1
-        features[state] = temp
-        return features[state]
+# def get_feature_vector(state):
+#     if state in features:
+#         return features[state]
+#     else:
+#         temp = np.zeros(1001)
+#         mytiles = tiles(iht, tilings, [float(state)/200])
+#         for tile in mytiles:
+#             temp[tile] = 1
+#         features[state] = temp
+#         return features[state]
 
-def get_value(state, weights):
-    features = get_feature_vector(state)
-    return np.dot(weights, features)
+# def get_value(state, weights):
+#     features = get_feature_vector(state)
+#     return np.dot(weights, features)
 
 def argmax(a):
     # Robert Kern
