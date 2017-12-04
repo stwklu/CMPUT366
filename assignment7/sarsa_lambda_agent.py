@@ -14,23 +14,20 @@ import pickle
 import matplotlib.pyplot as plt
 from tiles3 import *
 
-current_state = None
 last_state = None
 last_action = None
 last_tile = None
 weights = None 
 values = None
+Z = None
 
 tilings = 8 
 alpha = 0.1/tilings
 gamma = 1
 lambdah = 0.9
 epsilon = 0.0
-
 shape = [8,8] # where [0] is position, [1]  is velocity
 iht = IHT(4096)
-features = {}
-Z = None
 
 def agent_init():
     """
@@ -38,13 +35,11 @@ def agent_init():
     Returns: nothing
     """
     #initialize the policy array in a smart way
-    global weights, values, current_state, last_state
+    global weights, values
 
     values = np.zeros([shape[0], shape[1], 3]) # size of tiling shape and depth of # actions
-    weights = np.random.uniform(-0.001, 0.0, [shape[0] * shape[1] * tilings * 3]) # flatten values so as to have a vector for multiplication,etc later
+    weights = np.random.uniform(-0.001, 0.0, 4096) # eClass said use 4096, same as IHT size
 
-    current_state = None
-    last_state = None
 
 def agent_start(state):
     """
@@ -53,7 +48,7 @@ def agent_start(state):
     Returns: action: integer
     """
     # pick the first action, don't forget about exploring starts 
-    global current_state, last_state, last_action, last_tile, Z
+    global last_state, last_action, last_tile, Z
 
     # determine which tile index for position and velocity
     position = shape[0] * (state[0] + 1.2) / (1.2 + 0.5) # add lower bound 1.2 to get positives only, divide by range
@@ -66,7 +61,7 @@ def agent_start(state):
     last_action = action
     last_tile = tile
 
-    Z = np.zeros(len(weights))
+    Z = np.zeros(len(weights)) # eClass - same length as weights
 
     return action
 
@@ -77,25 +72,24 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     Returns: action: integer
     """
     # select an action, based on Q
-    global current_state, last_state, last_action, last_tile, weights, Z, values
-
-
-    position = shape[0] * (last_state[0] + 1.2) / (1.2 + 0.5) # add lower bound 1.2 to get positives only, divide by range
-    velocity = shape[1] * (last_state[1] + 0.7) / (0.7 + 0.7)
-    tile = [int(position), int(velocity)]
+    global last_state, last_action, last_tile, weights, Z, values
 
     TD_error = reward
     
     for i in F(last_tile, last_action):
         TD_error -= weights[i]
-        Z[i] += 1
+        Z[i] += 1.0
 
-    action = get_epsilon_action(int(position), int(velocity))
+    position = shape[0] * (state[0] + 1.2) / (1.2 + 0.5) # add lower bound 1.2 to get positives only, divide by range
+    velocity = shape[1] * (state[1] + 0.7) / (0.7 + 0.7)
+    tile = [int(position), int(velocity)]
+
+    action = get_epsilon_action(tile[0], tile[1])
     
     activated = np.zeros(len(weights))
 
     for i in F(tile, action):
-        activated[i] = 1
+        activated[i] = 1.0
         TD_error += gamma * weights[i]
 
     values[tile[0]][tile[1]][action] = np.dot(weights, activated)
@@ -114,7 +108,7 @@ def agent_end(reward):
     Returns: Nothing
     """
     # do learning and update pi
-    global weights, last_state
+    global weights, Z
 
     # no need to get new tile from pos and vel
 
@@ -122,7 +116,7 @@ def agent_end(reward):
 
     for i in F(last_tile, last_action):
         TD_error -= weights[i]
-        Z[i] += 1
+        Z[i] += 1.0
 
     weights += alpha * TD_error * Z
 
@@ -155,7 +149,7 @@ def agent_message(in_message): # returns string, in_message: string
 def get_epsilon_action(position, velocity):
     if np.random.uniform() < epsilon: # explore
         action = np.random.randint(3)
-        print("Yeaaaaaaaaaaaaaaaaaaa this probably shouldn't have happened, plz fix")
+        print("Yeaaaaaaaaaaaaaaaaaaa this probably shouldn't have happened when eps=0, plz fix")
     else: # exploit
         action = argmax(values[position][velocity])
     return action
