@@ -86,7 +86,7 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
 
     TD_error = reward
     
-    for i in tiles(iht, tilings, last_tile, [last_action]):
+    for i in F(last_tile, last_action):
         TD_error -= weights[i]
         Z[i] += 1
 
@@ -94,7 +94,7 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     
     activated = np.zeros(len(weights))
 
-    for i in tiles(iht, tilings, tile, [action]):
+    for i in F(tile, action):
         activated[i] = 1
         TD_error += gamma * weights[i]
 
@@ -120,7 +120,7 @@ def agent_end(reward):
 
     TD_error = reward
 
-    for i in tiles(iht, tilings, last_tile, [last_action]):
+    for i in F(last_tile, last_action):
         TD_error -= weights[i]
         Z[i] += 1
 
@@ -151,6 +151,7 @@ def agent_message(in_message): # returns string, in_message: string
     else:
         return "I don't know what to return!!"
 
+
 def get_epsilon_action(position, velocity):
     if np.random.uniform() < epsilon: # explore
         action = np.random.randint(3)
@@ -159,22 +160,11 @@ def get_epsilon_action(position, velocity):
         action = argmax(values[position][velocity])
     return action
 
-# def get_feature_vector(state):
-#     if state in features:
-#         return features[state]
-#     else:
-#         temp = np.zeros(1001)
-#         mytiles = tiles(iht, tilings, [float(state)/200])
-#         for tile in mytiles:
-#             temp[tile] = 1
-#         features[state] = temp
-#         return features[state]
-
-# def get_value(state, weights):
-#     features = get_feature_vector(state)
-#     return np.dot(weights, features)
 
 def argmax(a):
     # Robert Kern
     # https://mail.scipy.org/pipermail/numpy-discussion/2015-March/072459.html
     return np.random.choice(np.where(a == a.max())[0])
+
+def F(state, action):
+    return tiles(iht, tilings, state, [action])
