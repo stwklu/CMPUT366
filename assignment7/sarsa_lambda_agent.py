@@ -52,7 +52,7 @@ def agent_start(state):
 
     # determine which tile index for position and velocity
     position = shape[0] * (state[0] + 1.2) / (1.2 + 0.5) # add lower bound 1.2 to get positives only, divide by range
-    velocity = shape[1] * (state[1] + 0.7) / (0.7 + 0.7)
+    velocity = shape[1] * (state[1] + 0.07) / (0.07 + 0.07)
     tile = [int(position), int(velocity)]
 
     action = get_epsilon_action(tile[0], tile[1])
@@ -81,7 +81,7 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
         Z[i] += 1.0
 
     position = shape[0] * (state[0] + 1.2) / (1.2 + 0.5) # add lower bound 1.2 to get positives only, divide by range
-    velocity = shape[1] * (state[1] + 0.7) / (0.7 + 0.7)
+    velocity = shape[1] * (state[1] + 0.07) / (0.07 + 0.07)
     tile = [int(position), int(velocity)]
 
     action = get_epsilon_action(tile[0], tile[1])
