@@ -23,11 +23,12 @@ Z = None
 
 tilings = 8 
 alpha = 0.1/tilings
-gamma = 1
+gamma = 1.0
 lambdah = 0.9
 epsilon = 0.0
 shape = [8,8] # where [0] is position, [1]  is velocity
 iht = IHT(4096)
+
 
 def agent_init():
     """
@@ -53,9 +54,9 @@ def agent_start(state):
     # determine which tile index for position and velocity
     position = shape[0] * (state[0] + 1.2) / (1.2 + 0.5) # add lower bound 1.2 to get positives only, divide by range
     velocity = shape[1] * (state[1] + 0.07) / (0.07 + 0.07)
-    tile = [int(position), int(velocity)]
+    tile = [position, velocity]
 
-    action = get_epsilon_action(tile[0], tile[1])
+    action = get_epsilon_action(tile)
 
     last_state = state
     last_action = action
@@ -78,13 +79,13 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
     
     for i in F(last_tile, last_action):
         TD_error -= weights[i]
-        Z[i] += 1.0
+        Z[i] = 1.0
 
     position = shape[0] * (state[0] + 1.2) / (1.2 + 0.5) # add lower bound 1.2 to get positives only, divide by range
     velocity = shape[1] * (state[1] + 0.07) / (0.07 + 0.07)
-    tile = [int(position), int(velocity)]
+    tile = [position, velocity]
 
-    action = get_epsilon_action(tile[0], tile[1])
+    action = get_epsilon_action(tile)
     
     activated = np.zeros(len(weights))
 
@@ -92,7 +93,6 @@ def agent_step(reward, state): # returns NumPy array, reward: floating point, th
         activated[i] = 1.0
         TD_error += gamma * weights[i]
 
-    values[tile[0]][tile[1]][action] = np.dot(weights, activated)
     weights += alpha * TD_error * Z
     Z = gamma * lambdah * Z
 
@@ -116,11 +116,12 @@ def agent_end(reward):
 
     for i in F(last_tile, last_action):
         TD_error -= weights[i]
-        Z[i] += 1.0
+        Z[i] = 1.0
 
     weights += alpha * TD_error * Z
 
     return
+
 
 def agent_cleanup():
     """
@@ -129,6 +130,7 @@ def agent_cleanup():
     # clean up
 
     return
+
 
 def agent_message(in_message): # returns string, in_message: string
     """
@@ -146,12 +148,17 @@ def agent_message(in_message): # returns string, in_message: string
         return "I don't know what to return!!"
 
 
-def get_epsilon_action(position, velocity):
+def get_epsilon_action(state):
     if np.random.uniform() < epsilon: # explore
         action = np.random.randint(3)
         print("Yeaaaaaaaaaaaaaaaaaaa this probably shouldn't have happened when eps=0, plz fix")
     else: # exploit
-        action = argmax(values[position][velocity])
+        options = []
+        for action in range(3):
+            tiles123 = F(state, action)
+            options.append(np.sum(weights[tiles123]))
+        options = np.array(options)
+        action = argmax(options)
     return action
 
 
@@ -159,6 +166,7 @@ def argmax(a):
     # Robert Kern
     # https://mail.scipy.org/pipermail/numpy-discussion/2015-March/072459.html
     return np.random.choice(np.where(a == a.max())[0])
+
 
 def F(state, action):
     return tiles(iht, tilings, state, [action])
