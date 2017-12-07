@@ -16,15 +16,23 @@ import numpy as np
 
 if __name__ == "__main__":
     num_episodes = 200
-    num_runs = 50
+    num_runs = 5
 
     steps = np.zeros([num_runs,num_episodes])
+
+    runs_errors = np.zeros(num_runs)
 
     for r in range(num_runs):
         print "run number : ", r
         RL_init()
+        run_total = 0.0
         for e in range(num_episodes):
             # print '\tepisode {}'.format(e+1)
             RL_episode(0)
             steps[r,e] = RL_num_steps()
+            run_total += RL_return()
+        runs_errors[r] = run_total
+    
+    print(runs_errors)
+    print(np.mean(runs_errors))
     np.save('steps',steps)
