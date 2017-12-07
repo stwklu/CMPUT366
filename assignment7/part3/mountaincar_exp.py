@@ -33,24 +33,24 @@ if __name__ == "__main__":
     fout = open('value', 'w')
     steps = 50
     data = np.zeros([steps, steps])
-    for i in range(steps):
-        for j in range(steps):
+    for i in range(steps): # POSITION
+        for j in range(steps): # VELOCITY
             values = []
             for a in range(3):
                 # tilecode ([pos = -1.2 + (i * 1.7 / steps), vel = -0.07 + (j * 0.14 / steps)], action = [a]) => inds
-                position = 8.0 * (float(i)/steps*1.7) / (1.2 + 0.5) # add lower bound 1.2 to get positives only, divide by range
-                velocity = 8.0 * (float(j)/steps*0.14) / (0.07 + 0.07)
+                position = 8.0 * (float(i)/steps) # add lower bound 1.2 to get positives only, divide by range
+                velocity = 8.0 * (float(j)/steps)
                 tile = [position, velocity]
 
                 inds = F(tile, a)
 
-                value = - np.sum(weights[inds])
+                value = np.sum(weights[inds])
                 # values.append(-Q(inds,w))
                 values.append(value)
             # height = max of values
             height = max(values)
 
-            data[i,j] = height
+            data[j,i] = - height
             fout.write(repr(height) + ' ')
         fout.write('\n')
     fout.close()
