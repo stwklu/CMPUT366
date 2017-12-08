@@ -22,7 +22,7 @@ values = None
 Z = None
 
 tilings = 8 
-alpha = 0.5/tilings
+alpha = 0.1/tilings
 gamma = 1.0
 lambdah = 0.9
 epsilon = 0.0

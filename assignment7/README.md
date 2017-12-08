@@ -34,4 +34,28 @@ python plot.py # Write learning curve to bonus.png
 ```
 ![Bonus](bonus/bonus.png)
 
+Optionally, if Part 1 has been calculated as above, you can see the Modified vs Unmodified learning graphs simultaneously with the following:
+```python
+python plot2.py
+```
 ![Bonus with Unmodified](bonus/bonus2.png)
+
+### Results
+```
+Unmodified
+Mean: -39984.14
+Std: 711.509775337
+Error: 100.622677404
+...
+Modified
+Mean: -30511.1
+Std: 1288.71249315
+Error: 182.251468581
+...
+Did it Change?
+Improvement: 51.9778527644
+```
+
+### Modifications
+
+The only modifications are that I implemented Accumulating Traces in the modified agent. Modified and Unmodified used 50 runs. Not only do we see faster learning off the start, Accumulating Traces generally takes fewer steps to get to the goal all the way up to 200 episodes.
