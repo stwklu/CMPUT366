@@ -16,7 +16,7 @@ import numpy as np
 
 if __name__ == "__main__":
     num_episodes = 200
-    num_runs = 3
+    num_runs = 50
 
     steps = np.zeros([num_runs,num_episodes])
 
