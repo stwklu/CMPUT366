@@ -1,6 +1,10 @@
 # Assignment 7
 ## Part 1
+### How to Run Code
+``` python
+python mountaincar_exp.py # 50 runs
 
+```
 ## Part 2
 
 ## Part 3
@@ -9,6 +13,9 @@
 python mountaincar_exp.py # Do 1 run of 1000 episodes
 python plot2.py # Create and save 3D plot to part3.png
 ```
+
+![Test](part3/part3.png)
+
 ### Notes
 Please note there are two plot types available, with the default being a surface. To alternate, in `plot2.py` uncomment one of the following lines:
 ```python
