@@ -26,12 +26,13 @@ if os.path.exists(filename):
   x1, y1 = np.meshgrid(x, y)
 
 
-  # ax.set_xticks([-1.2, 0.5])
-  # ax.set_yticks([0.07, -0.07])
-  # ax.set_zticks([0, np.amax(data)])
+  ax.set_xticks([-1.2, 0.5])
+  ax.set_yticks([0.07, -0.07])
+  ax.set_zticks([0, np.max(data)])
   ax.set_ylabel('Velocity')
   ax.set_xlabel('Position')
   ax.set_zlabel('Cost To Go')
-  ax.plot_surface(x1, y1, data)
-  plt.savefig('3d.png')
+  # ax.plot_wireframe(x1, y1, data)
+  ax.plot_surface(x1,y1,data, cstride=1, rstride=1)
+  plt.savefig('part3.png')
   plt.show()
