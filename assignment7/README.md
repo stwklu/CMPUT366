@@ -27,3 +27,11 @@ ax.plot_surface(x1,y1,data, cstride=1, rstride=1)
 ```
 A few extra photos are included as `part3-#.png`
 ## Bonus
+### How to Run Code
+```python 
+python mountaincar_exp.py
+python plot.py # Write learning curve to bonus.png
+```
+![Bonus](bonus/bonus.png)
+
+![Bonus with Unmodified](bonus/bonus2.png)

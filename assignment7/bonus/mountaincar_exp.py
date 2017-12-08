@@ -16,7 +16,7 @@ import numpy as np
 
 if __name__ == "__main__":
     num_episodes = 200
-    num_runs = 15
+    num_runs = 3
 
     steps = np.zeros([num_runs,num_episodes])
 
@@ -37,11 +37,6 @@ if __name__ == "__main__":
     original_mean = np.mean(runs_errors)
     original_std = np.std(runs_errors)
     original_error = original_std / (num_runs**0.5)
-
-    # original_mean = -39902.8
-    # original_std = 770.338
-    # original_error = 344.5
-
     
     print("Unmodified")
     print("Mean: " + str(original_mean))
@@ -76,7 +71,7 @@ if __name__ == "__main__":
     print("Error: " + str(mod_error))
 
 
-    print("Change?")
+    print("Did it Change?")
 
     if original_error > mod_error:
         larger_error = original_error
@@ -86,7 +81,7 @@ if __name__ == "__main__":
 
     imp = (mod_mean - original_mean) / larger_error
 
-    print(imp)
+    print("Improvement: " + str(imp))
 
     np.save('steps', steps)
 
